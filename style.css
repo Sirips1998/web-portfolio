@@ -444,4 +444,113 @@ body {
   margin: 0 0 0.35rem;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.4s 0.12s var(--ease-expo), transform 0.4s 0.
+  transition: opacity 0.4s 0.12s var(--ease-expo), transform 0.4s 0.12s var(--ease-expo);
+}
+
+.crs-role {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s 0.2s var(--ease-expo), transform 0.4s 0.2s var(--ease-expo);
+}
+
+/* Reveal info when active */
+.crs-slide.is-active .crs-num,
+.crs-slide.is-active .crs-name,
+.crs-slide.is-active .crs-role {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Footer: dots + counter ---------- */
+.works-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3.5vh;
+}
+
+.crs-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.cdot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(26,26,26,0.2);
+  cursor: pointer;
+  transition:
+    width    0.35s var(--ease-elastic),
+    border-radius 0.35s var(--ease-elastic),
+    background   0.3s var(--ease-smooth),
+    transform    0.3s var(--ease-elastic);
+  outline: none;
+}
+.cdot.active {
+  width: 24px;
+  border-radius: 3px;
+  background: var(--charcoal);
+}
+.cdot:hover:not(.active) {
+  background: rgba(26,26,26,0.45);
+  transform: scale(1.25);
+}
+.cdot:focus-visible {
+  outline: 2px solid var(--charcoal);
+  outline-offset: 3px;
+}
+
+.crs-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+.crs-counter__sep {
+  display: block;
+  width: 20px; height: 1px;
+  background: var(--muted);
+  opacity: 0.4;
+}
+
+/* ============================================================
+   SHARED KEYFRAMES
+   ============================================================ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+  .blob-1 { width: 280px; height: 280px; }
+  .blob-2 { width: 240px; height: 240px; }
+  .blob-3 { width: 200px; height: 200px; }
+
+  .crs-stage {
+    width: 82vw;
+    height: 460px;
+  }
+  .bg-text-line { font-size: clamp(4.5rem, 22vw, 8rem); }
+}
