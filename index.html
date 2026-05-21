@@ -1,132 +1,329 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Asahi Kyouya — Portfolio</title>
+/* ============================================================
+   style.css — Asahi Kyouya Portfolio Studio Layout Engine
+   ============================================================ */
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+/* ---------- CSS Custom Properties / Global Design Tokens ---------- */
+:root {
+  --cream:        #F5F2EE;
+  --cream-dark:   #EDE9E3;
+  --charcoal:     #1A1A1A;
+  --muted:        #6B6B6B;
+  --accent-warm:  rgba(210, 180, 140, 0.35);
+  --accent-sage:  rgba(160, 185, 160, 0.28);
+  --accent-blush: rgba(215, 185, 175, 0.30);
+  --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['Cormorant Garamond', 'serif'],
-            body:    ['DM Sans', 'sans-serif'],
-          },
-          colors: {
-            cream:   '#F5F2EE',
-            'cream-dark': '#EDE9E3',
-            charcoal: '#1A1A1A',
-            muted:   '#6B6B6B',
-          },
-        }
-      }
-    }
-  </script>
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  <link rel="stylesheet" href="style.css" />
-</head>
+/* ============================================================
+   HERO / IDENTITY SECTION SPECIFICS
+   ============================================================ */
 
-<body class="bg-cream font-body text-charcoal overflow-x-hidden">
+.blob-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0;
+  animation: blob-fade-in 1.6s var(--ease-expo) forwards;
+  will-change: transform, opacity;
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.blob-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, var(--accent-warm) 0%, transparent 70%);
+  top: -10%; left: -8%;
+  animation-delay: 0.2s;
+}
+.blob-2 {
+  width: 440px; height: 440px;
+  background: radial-gradient(circle, var(--accent-sage) 0%, transparent 70%);
+  bottom: 5%; right: -5%;
+  animation-delay: 0.5s;
+}
+.blob-3 {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, var(--accent-blush) 0%, transparent 70%);
+  top: 40%; left: 55%;
+  animation-delay: 0.9s;
+}
+@keyframes blob-fade-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
-  <section id="works" class="works-section relative overflow-hidden flex flex-col items-center justify-center min-h-screen pt-20 pb-10">
-    
-    <div class="absolute top-8 left-8 md:top-10 md:left-12 z-20">
-      <span class="text-xs tracking-[0.25em] text-muted uppercase font-body font-medium select-none">Portfolio — 2026</span>
-    </div>
-    <div class="absolute top-8 right-8 md:top-10 md:right-12 flex items-center gap-6 z-20">
-      <a href="#about"   class="nav-link font-medium">About</a>
-      <a href="#contact" class="nav-link font-medium">Contact</a>
-    </div>
+.hero-content {
+  animation: content-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+@keyframes content-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-    <div class="crs-viewport relative z-10 w-full flex items-center justify-center px-4 mt-8">
-      
-      <div class="crs-stage">
-        <div class="crs-track" id="carouselTrack">
-          
-          <div class="crs-slide is-active" data-index="0">
-            <div class="crs-card">
-              <div class="crs-img-wrap relative">
-                <img src="images/Gaming-Character.png" alt="Gamer" class="crs-img" draggable="false" />
-                <div class="crs-shadow"></div>
-              </div>
-            </div>
-          </div>
+.headline {
+  font-size: clamp(4.5rem, 13vw, 12rem);
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
 
-          <div class="crs-slide" data-index="1">
-            <div class="crs-card">
-              <div class="crs-img-wrap relative">
-                <img src="images/Office-Character.png" alt="Office Look" class="crs-img" draggable="false" />
-                <div class="crs-shadow"></div>
-              </div>
-            </div>
-          </div>
+.eyebrow-line { opacity: 0; animation: fade-up 0.9s var(--ease-expo) 0.5s forwards; }
+.role-text { opacity: 0; animation: fade-up 0.9s var(--ease-expo) 0.75s forwards; }
 
-          <div class="crs-slide" data-index="2">
-            <div class="crs-card">
-              <div class="crs-img-wrap relative">
-                <img src="images/Coder-Character.png" alt="Coder" class="crs-img" draggable="false" />
-                <div class="crs-shadow"></div>
-              </div>
-            </div>
-          </div>
+.nav-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s var(--ease-smooth);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--charcoal);
+  transition: width 0.3s var(--ease-smooth);
+}
+.nav-link:hover { color: var(--charcoal); }
+.nav-link:hover::after { width: 100%; }
 
-          <div class="crs-slide" data-index="3">
-            <div class="crs-card">
-              <div class="crs-img-wrap relative">
-                <img src="images/Fantasy-Character.png" alt="Fantasy Magic Mage" class="crs-img" draggable="false" />
-                <div class="crs-shadow"></div>
-              </div>
-            </div>
-          </div>
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 2.2rem;
+  border: 1px solid rgba(26,26,26,0.3);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  text-decoration: none;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.45s var(--ease-smooth), border-color 0.45s var(--ease-smooth);
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 1s forwards;
+}
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--charcoal);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--ease-smooth);
+  z-index: 0;
+}
+.cta-btn:hover::before  { transform: scaleX(1); }
+.cta-btn:hover          { color: var(--cream); border-color: var(--charcoal); }
+.cta-label, .cta-arrow  { position: relative; z-index: 1; }
+.cta-arrow              { transition: transform 0.35s var(--ease-smooth); }
+.cta-btn:hover .cta-arrow { transform: translate(3px,-3px); }
 
-        </div>
-      </div>
+.scroll-hint { opacity: 0; animation: fade-in 1s ease 1.6s forwards; }
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--muted), transparent);
+  animation: scroll-pulse 2.2s ease-in-out 1.8s infinite;
+}
+@keyframes scroll-pulse {
+  0%,100% { opacity:0.5; transform:scaleY(1); }
+  50%      { opacity:1;   transform:scaleY(1.25); }
+}
 
-    </div>
+/* ============================================================
+   3D ROTARY INTERACTIVE CAROUSEL ARCHITECTURE
+   ============================================================ */
 
-    <div class="crs-info relative z-10 mt-12 text-center pb-4">
-      <span class="crs-num text-xs tracking-widest text-muted block mb-2" id="currentSlideNum">01 / 04</span>
-    </div>
-    
-    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 scroll-hint z-20">
-      <a href="#about" class="text-[10px] tracking-[0.25em] text-muted/60 uppercase hover:text-charcoal transition-colors">Scroll to About</a>
-      <div class="scroll-line"></div>
-    </div>
+.works-section {
+  background: var(--cream);
+  overflow: hidden;
+}
 
-  </section>
+/* ---------- Text Behind Image ---------- */
+.card-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 0; /* ซ่อนหลังรูป */
+  pointer-events: none;
+  width: 100vw;
+}
 
+.card-bg-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; /* ทำให้ตัวหนาขึ้น */
+  font-size: clamp(6rem, 20vw, 22rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  /* สีขาวแบบ Fill เต็มๆ + เงานิดๆ */
+  color: #FFFFFF;
+  text-shadow: 4px 8px 24px rgba(0, 0, 0, 0.08); 
+  white-space: nowrap;
+}
 
-  <section id="about" class="relative min-h-[80vh] flex flex-col items-center justify-center px-6 border-t border-black/5">
-    
-    <div class="blob-wrapper" aria-hidden="true">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-    </div>
+.card-bg-line--offset {
+  transform: translateX(6%);
+}
 
-    <div class="relative z-10 text-center max-w-5xl mx-auto hero-content pt-10">
-      <h1 class="headline font-display font-light text-charcoal leading-none tracking-tight mb-6 md:mb-8">
-        Asahi<br /><em class="font-light not-italic">Kyouya.</em>
-      </h1>
-      <p class="role-text font-body font-light text-muted tracking-[0.18em] uppercase text-xs md:text-sm mb-12 md:mb-14">
-        Motion Designer &nbsp;&amp;&nbsp; Frontend Developer
-      </p>
-      <div class="flex justify-center">
-        <a href="#contact" class="cta-btn" id="ctaBtn">
-          <span class="cta-label">Get in Touch</span>
-          <span class="cta-arrow" aria-hidden="true">↗</span>
-        </a>
-      </div>
-    </div>
-  </section>
+/* ---------- Central Stage Area Perspective Mapping ---------- */
+.crs-viewport { display: flex; align-items: center; justify-content: center; width: 100%; }
+.crs-stage {
+  perspective: 1600px;
+  perspective-origin: 50% 50%;
+  width: min(500px, 88vw);
+  height: 560px;
+  position: relative;
+  overflow: visible;
+}
 
-  <script src="api.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+/* ---------- The Rotary System Track ---------- */
+.crs-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--ease-elastic);
+  will-change: transform;
+}
+
+/* ---------- Slide Geometric Configuration & Shrinking Effect ---------- */
+.crs-slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(1);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: opacity 0.55s var(--ease-expo), filter 0.55s var(--ease-expo), transform 0.8s var(--ease-elastic);
+  will-change: transform, opacity, filter;
+}
+
+/* Non-active Slides Configuration */
+.crs-slide:not(.is-active) {
+  opacity: 0.4;
+  filter: blur(4px) grayscale(50%);
+  pointer-events: none;
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(0.85);
+}
+
+/* Active Slide Configurations */
+.crs-slide.is-active {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(1);
+}
+
+.crs-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.crs-img-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+.crs-img {
+  width: auto;
+  max-width: 88%;
+  height: 100%;
+  max-height: 460px;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.6s var(--ease-expo);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Float animation only for active card images */
+.crs-slide.is-active .crs-img {
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-14px); }
+}
+
+/* Contact Shadow Drop System Mapping */
+.crs-shadow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55%;
+  height: 24px;
+  background: radial-gradient(ellipse, rgba(26,26,26,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: opacity 0.5s var(--ease-expo);
+}
+.crs-slide:not(.is-active) .crs-shadow { opacity: 0; }
+.crs-slide.is-active .crs-shadow { opacity: 1; animation: shadow-scale 4s ease-in-out infinite; }
+
+@keyframes shadow-scale {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(0.85); opacity: 0.6; }
+}
+
+/* ============================================================
+   SHARED KEYFRAMES & RESPONSIVE TWEAKS
+   ============================================================ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .blob-1 { width: 280px; height: 280px; }
+  .blob-2 { width: 240px; height: 240px; }
+  .blob-3 { width: 200px; height: 200px; }
+
+  .crs-stage {
+    width: 82vw;
+    height: 460px;
+  }
+  .crs-slide { transform: rotateY(var(--slide-angle)) translateZ(300px); }
+  .card-bg-line { font-size: clamp(4.5rem, 22vw, 8rem); }
+}

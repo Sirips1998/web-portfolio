@@ -43,14 +43,13 @@ const BlobParallax = (() => {
 })();
 
 // ==========================================
-// Continuous Auto-Rotating 3D Carousel (infinity loop)
+// Continuous Auto-Rotating 3D Carousel
 // ==========================================
 const Carousel3D = (() => {
   const TOTAL = 4;
-  const STEP_ANGLE = 360 / TOTAL; // 90° per card for symmetric circular placement
-  const AUTO_DELAY = 4500; // ms between auto-advances
+  const STEP_ANGLE = 360 / TOTAL; 
+  const AUTO_DELAY = 2000; // หมุนออโต้ทุกๆ 2 วินาที
   
-  // ชุดข้อมูลพอร์ตโฟลิโอแอนิเมชัน (bg1, bg2 ควบคุมตัวอักษรยักษ์ข้างหลัง)
   const slideData = [
     { bg1: 'THE', bg2: 'GAMER', role: 'Intense · Reactive' },
     { bg1: 'THE', bg2: 'PLANNER', role: 'Strategic · Detail-Driven' },
@@ -59,75 +58,75 @@ const Carousel3D = (() => {
   ];
 
   let currentRotation = 0; 
-  let autoTimer = null; // Timer object
-  let isAnimating = false; // Guard
-  let touchStartX = 0; // Swipe start
+  let autoTimer = null; 
+  let isAnimating = false; 
   
-  // DOM refs (populated in init)
-  let track, slides, numLabel, roleLabel, bgText1, bgText2, section;
+  let track, slides, numLabel, roleLabel, bgText1, bgText2;
 
   function init() {
     track = document.getElementById('carouselTrack');
     if (!track) return;
 
-    section = document.getElementById('works'); // used for hover check
     slides = Array.from(track.querySelectorAll('.crs-slide'));
     numLabel = document.getElementById('currentSlideNum');
     roleLabel = document.getElementById('currentSlideRole');
     bgText1 = document.getElementById('bgText1');
     bgText2 = document.getElementById('bgText2');
 
-    // จัดวางพิกัดมุมองศาแบบสมมาตรรอบวงแหวน 3D 
     slides.forEach((slide, i) => {
       slide.style.setProperty('--slide-angle', `${i * STEP_ANGLE}deg`);
     });
 
-    // Keyboard navigation (arrow keys when carousel is focused)
-    document.addEventListener('keydown', onKeyDown);
-
-    // Touch / swipe support
-    track.addEventListener('touchstart', onTouchStart, { passive: true });
-    track.addEventListener('touchend',   onTouchEnd,   { passive: true });
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     
-    // Pause on hover / focus
-    section?.addEventListener('mouseenter', stopAutoPlay);
-    section?.addEventListener('mouseleave', startAutoPlay);
-    section?.addEventListener('focusin',    stopAutoPlay);
-    section?.addEventListener('focusout',   startAutoPlay);
+    prevBtn?.addEventListener('click', () => manualNavigate(-1));
+    nextBtn?.addEventListener('click', () => manualNavigate(+1));
+
+    // ปลุกระบบให้ตื่นตอนสลับแท็บไปมา (แก้บั๊กหยุดหมุน)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    });
 
     render();
-    startAutoPlay(); // เริ่มรันลูปอนิเมชันสไลด์ออโต้ทันทีเมื่อโหลดหน้ากระดานเสร็จ
+    
+    // ตั้งเวลาดีเลย์นิดนึงก่อนเริ่มหมุนครั้งแรก ให้หน้าเว็บโหลดให้เสร็จก่อน
+    setTimeout(startAutoPlay, 500); 
   }
 
   function navigate(dir) {
     if (isAnimating) return;
     isAnimating = true;
     
-    // ใช้การเพิ่ม/ลด องศาแบบสะสมต่อเนื่อง ป้องกันบั๊กเด้งกลับหลัง
     currentRotation += dir * -STEP_ANGLE;
     render();
     
-    // Lock for duration of CSS transition (elastic transition time rule)
     setTimeout(() => { isAnimating = false; }, 800); 
+  }
+
+  function manualNavigate(dir) {
+    navigate(dir);
+    stopAutoPlay();
+    startAutoPlay(); 
   }
 
   function render() {
     track.style.transform = `rotateY(${currentRotation}deg)`;
 
-    // คำนวณหา active index แบบ Infinity Loop
     let activeIndex = Math.round(currentRotation / -STEP_ANGLE) % TOTAL;
-    if (activeIndex < 0) activeIndex += TOTAL; // กันค่าติดลบ
+    if (activeIndex < 0) activeIndex += TOTAL; 
 
-    // Update active slide state
     slides.forEach((slide, i) => {
       slide.classList.toggle('is-active', i === activeIndex);
     });
 
-    // Update index labels
     if(numLabel) numLabel.textContent = `0${activeIndex + 1} / 04`;
     if(roleLabel) roleLabel.textContent = slideData[activeIndex].role;
     
-    // อัปเดตข้อความยักษ์แบ็คกราวด์ด้านหลังให้ตรงตามรูป
     if(bgText1) bgText1.textContent = slideData[activeIndex].bg1;
     if(bgText2) bgText2.textContent = slideData[activeIndex].bg2;
   }
@@ -141,41 +140,6 @@ const Carousel3D = (() => {
   function stopAutoPlay() {
     clearInterval(autoTimer);
     autoTimer = null;
-  }
-
-  // ── Keyboard / Touch Utilities ──────────────────────────────────────────
-  function onKeyDown(e) {
-    // Only react when the carousel section is in view to prevent global key hijack
-    if (!section) return;
-    const rect = section.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!inView) return;
-
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      navigate(+1);
-      stopAutoPlay(); // reset timer on manual
-      startAutoPlay();
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      navigate(-1);
-      stopAutoPlay(); // reset timer on manual
-      startAutoPlay();
-    }
-  }
-
-  function onTouchStart(e) {
-    touchStartX = e.touches[0]?.clientX ?? 0;
-  }
-
-  function onTouchEnd(e) {
-    const dx = (e.changedTouches[0]?.clientX ?? 0) - touchStartX;
-    const THRESHOLD = 50; // px minimum swipe
-    if (Math.abs(dx) < THRESHOLD) return;
-    
-    navigate(dx < 0 ? +1 : -1);
-    stopAutoPlay(); // reset timer on manual
-    startAutoPlay();
   }
 
   return { init };
