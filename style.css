@@ -1,8 +1,8 @@
 /* ============================================================
-   style.css — Asahi Kyouya Portfolio
+   style.css — Asahi Kyouya Portfolio Studio Layout Engine
    ============================================================ */
 
-/* ---------- CSS Custom Properties ---------- */
+/* ---------- CSS Custom Properties / Global Design Tokens ---------- */
 :root {
   --cream:        #F5F2EE;
   --cream-dark:   #EDE9E3;
@@ -25,10 +25,9 @@ body {
 }
 
 /* ============================================================
-   HERO SECTION / ABOUT
+   HERO / IDENTITY SECTION SPECIFICS
    ============================================================ */
 
-/* -- Blob background -- */
 .blob-wrapper {
   position: absolute;
   inset: 0;
@@ -68,7 +67,6 @@ body {
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* -- Hero content entrance -- */
 .hero-content {
   animation: content-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
@@ -77,24 +75,15 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* -- Headline -- */
 .headline {
   font-size: clamp(4.5rem, 13vw, 12rem);
   letter-spacing: -0.03em;
   line-height: 0.92;
 }
 
-/* -- Eyebrow / role text -- */
-.eyebrow-line {
-  opacity: 0;
-  animation: fade-up 0.9s var(--ease-expo) 0.5s forwards;
-}
-.role-text {
-  opacity: 0;
-  animation: fade-up 0.9s var(--ease-expo) 0.75s forwards;
-}
+.eyebrow-line { opacity: 0; animation: fade-up 0.9s var(--ease-expo) 0.5s forwards; }
+.role-text { opacity: 0; animation: fade-up 0.9s var(--ease-expo) 0.75s forwards; }
 
-/* -- Nav links -- */
 .nav-link {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.7rem;
@@ -117,7 +106,6 @@ body {
 .nav-link:hover { color: var(--charcoal); }
 .nav-link:hover::after { width: 100%; }
 
-/* -- CTA Button -- */
 .cta-btn {
   display: inline-flex;
   align-items: center;
@@ -154,11 +142,7 @@ body {
 .cta-arrow              { transition: transform 0.35s var(--ease-smooth); }
 .cta-btn:hover .cta-arrow { transform: translate(3px,-3px); }
 
-/* -- Scroll indicator -- */
-.scroll-hint {
-  opacity: 0;
-  animation: fade-in 1s ease 1.6s forwards;
-}
+.scroll-hint { opacity: 0; animation: fade-in 1s ease 1.6s forwards; }
 .scroll-line {
   width: 1px; height: 40px;
   background: linear-gradient(to bottom, var(--muted), transparent);
@@ -170,10 +154,15 @@ body {
 }
 
 /* ============================================================
-   WORKS / CAROUSEL SECTION
+   3D ROTARY INTERACTIVE CAROUSEL ARCHITECTURE
    ============================================================ */
 
-/* ---------- Giant background text ---------- */
+.works-section {
+  background: var(--cream);
+  overflow: hidden;
+}
+
+/* ---------- Giant Background Typography Layers ---------- */
 .works-bg-text {
   position: absolute;
   inset: 0;
@@ -186,7 +175,6 @@ body {
   z-index: 0;
   user-select: none;
 }
-
 .bg-text-line {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
@@ -197,12 +185,118 @@ body {
   -webkit-text-stroke: 1px rgba(26, 26, 26, 0.065);
   white-space: nowrap;
 }
-
 .bg-text-line--offset {
   transform: translateX(6%);
 }
 
-/* ---------- Arrow buttons ---------- */
+/* ---------- Circular Stage Viewport Definition ---------- */
+.crs-viewport { display: flex; align-items: center; justify-content: center; width: 100%; }
+.crs-stage {
+  perspective: 1600px;
+  perspective-origin: 50% 50%;
+  width: min(500px, 88vw);
+  height: 560px;
+  position: relative;
+  overflow: visible;
+}
+
+/* ---------- Structural Core 3D Carousel Ring ---------- */
+.crs-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--ease-elastic);
+  will-change: transform;
+}
+
+/* ---------- Slide Space Transformations ---------- */
+.crs-slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  /* translateZ(480px) Determines ring geometry boundaries */
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: opacity 0.55s var(--ease-expo), filter 0.55s var(--ease-expo);
+  will-change: transform, opacity, filter;
+}
+
+/* Inactive Slide Configurations (Depth Cue Blurring) */
+.crs-slide:not(.is-active) {
+  opacity: 0.4;
+  filter: blur(4px) grayscale(50%);
+  pointer-events: none;
+}
+.crs-slide.is-active {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
+.crs-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.crs-img-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+.crs-img {
+  width: auto;
+  max-width: 88%;
+  height: 100%;
+  max-height: 460px;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.6s var(--ease-expo);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Core Micro-Animation: Floating Engine */
+.crs-slide.is-active .crs-img {
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-14px); }
+}
+
+/* Ground Ellipse Contact Shadow Drop Mapping */
+.crs-shadow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55%;
+  height: 24px;
+  background: radial-gradient(ellipse, rgba(26,26,26,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: opacity 0.5s var(--ease-expo);
+}
+.crs-slide:not(.is-active) .crs-shadow { opacity: 0; }
+.crs-slide.is-active .crs-shadow { opacity: 1; animation: shadow-scale 4s ease-in-out infinite; }
+
+@keyframes shadow-scale {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(0.85); opacity: 0.6; }
+}
+
+/* Minimal Vector Navigation Anchors */
 .crs-arrow {
   flex-shrink: 0;
   width: 48px; height: 48px;
@@ -223,7 +317,6 @@ body {
     border-color 0.3s var(--ease-smooth),
     transform   0.3s var(--ease-elastic);
   outline: none;
-  margin: 0 1.5rem;
 }
 .crs-arrow:hover {
   background: var(--charcoal);
@@ -234,127 +327,7 @@ body {
 .crs-arrow:active { transform: scale(0.92); }
 .crs-arrow:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 3px; }
 
-/* ---------- 3D Stage ---------- */
-.crs-stage {
-  perspective: 1600px; /* เพิ่มมิติความลึก */
-  perspective-origin: 50% 50%;
-  width: min(500px, 88vw);
-  height: 560px;
-  position: relative;
-  overflow: visible;
-}
-
-/* ---------- Track — the rotating carousel ring ---------- */
-.crs-track {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  /* JS drives this rotation */
-  transform: rotateY(0deg);
-  transition: transform 0.8s var(--ease-elastic);
-  will-change: transform;
-}
-
-/* ---------- Individual slides ---------- */
-.crs-slide {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  /* JS sets --slide-angle per slide. ขยาย translateZ เพื่อให้เป็นวงกลมกว้างขึ้น */
-  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition:
-    opacity 0.55s var(--ease-expo),
-    filter  0.55s var(--ease-expo);
-  will-change: transform, opacity, filter;
-}
-
-/* Non-active slides: dim + blur */
-.crs-slide:not(.is-active) {
-  opacity: 0.4; /* ให้ตัวข้างหลังชัดขึ้นมานิดนึง */
-  filter: blur(4px) grayscale(50%);
-  pointer-events: none;
-}
-
-/* Active slide */
-.crs-slide.is-active {
-  opacity: 1;
-  filter: none;
-  pointer-events: auto;
-}
-
-/* ---------- Card face ---------- */
-.crs-card {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-/* ---------- Image container (floating character) ---------- */
-.crs-img-wrap {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  position: relative;
-}
-
-.crs-img {
-  width: auto;
-  max-width: 88%;
-  height: 100%;
-  max-height: 460px; /* ปรับขนาดรูปให้ใหญ่ขึ้นนิดนึง */
-  object-fit: contain;
-  object-position: bottom center;
-  display: block;
-  position: relative;
-  z-index: 1;
-  transition: transform 0.6s var(--ease-expo);
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-/* Float animation only for active */
-.crs-slide.is-active .crs-img {
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,100% { transform: translateY(0px); }
-  50%      { transform: translateY(-14px); }
-}
-
-/* Floor shadow (ellipse under character) */
-.crs-shadow {
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 55%;
-  height: 24px;
-  background: radial-gradient(ellipse, rgba(26,26,26,0.18) 0%, transparent 70%);
-  border-radius: 50%;
-  transition: opacity 0.5s var(--ease-expo);
-}
-
-.crs-slide:not(.is-active) .crs-shadow { opacity: 0; }
-.crs-slide.is-active .crs-shadow { opacity: 1; animation: shadow-scale 4s ease-in-out infinite; }
-
-@keyframes shadow-scale {
-  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
-  50% { transform: translateX(-50%) scale(0.85); opacity: 0.6; }
-}
-
-/* ============================================================
-   SHARED KEYFRAMES
-   ============================================================ */
+/* ---------- Interface Animation Utilities ---------- */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -364,9 +337,7 @@ body {
   to   { opacity: 1; }
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+/* ---------- Breakpoint Adaptability Engine ---------- */
 @media (max-width: 768px) {
   .blob-1 { width: 280px; height: 280px; }
   .blob-2 { width: 240px; height: 240px; }
@@ -376,6 +347,7 @@ body {
     width: 82vw;
     height: 460px;
   }
-  .crs-slide { transform: rotateY(var(--slide-angle)) translateZ(300px); } /* ลดความกว้างวงแหวนในมือถือ */
+  /* Compressed mobile boundary distance rules */
+  .crs-slide { transform: rotateY(var(--slide-angle)) translateZ(300px); }
   .bg-text-line { font-size: clamp(4.5rem, 22vw, 8rem); }
 }
