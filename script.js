@@ -4,8 +4,11 @@
 
 'use strict';
 
-// ── Organic Ambient Blob Parallax Layer Handles Mouse Movement ──────────────────
 const lerp = (a, b, t) => a + (b - a) * t;
+
+/* ============================================================
+   ORGANIC AMBIENT BLOB PARALLAX
+   ============================================================ */
 
 const BlobParallax = (() => {
   const blobs = [
@@ -15,6 +18,7 @@ const BlobParallax = (() => {
   ];
 
   const LERP_SPEED = 0.055;
+
   let mouseX = 0;
   let mouseY = 0;
   let hasInit = false;
@@ -30,10 +34,14 @@ const BlobParallax = (() => {
       if (blobs[i]) blobs[i].el = el;
     });
 
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX - window.innerWidth / 2;
-      mouseY = e.clientY - window.innerHeight / 2;
-    }, { passive: true });
+    document.addEventListener(
+      'mousemove',
+      event => {
+        mouseX = event.clientX - window.innerWidth / 2;
+        mouseY = event.clientY - window.innerHeight / 2;
+      },
+      { passive: true }
+    );
 
     requestAnimationFrame(tick);
   }
@@ -54,19 +62,35 @@ const BlobParallax = (() => {
   return { init };
 })();
 
+/* ============================================================
+   CONTINUOUS AUTO-ROTATING 3D CAROUSEL
+   ============================================================ */
 
-// ==========================================
-// Continuous Auto-Rotating 3D Carousel
-// ==========================================
 const Carousel3D = (() => {
   const AUTO_DELAY = 2000;
   const ANIMATION_LOCK = 850;
 
   const slideData = [
-    { bg1: 'THE', bg2: 'GAMER', role: 'Intense · Reactive' },
-    { bg1: 'THE', bg2: 'PLANNER', role: 'Strategic · Detail-Driven' },
-    { bg1: 'THE', bg2: 'DEVELOPER', role: 'Caffeine-Powered · Builder' },
-    { bg1: 'THE', bg2: 'CREATIVE', role: 'Visionary · Unconventional' }
+    {
+      bg1: 'THE',
+      bg2: 'GAMER',
+      role: 'Intense · Reactive',
+    },
+    {
+      bg1: 'THE',
+      bg2: 'OFFICE',
+      role: 'Organized · Professional',
+    },
+    {
+      bg1: 'THE',
+      bg2: 'CODER',
+      role: 'Caffeine-Powered · Builder',
+    },
+    {
+      bg1: 'THE',
+      bg2: 'FANTASY',
+      role: 'Visionary · Unconventional',
+    },
   ];
 
   let total = 0;
@@ -76,12 +100,12 @@ const Carousel3D = (() => {
   let isAnimating = false;
   let hasInit = false;
 
-  let track;
-  let slides;
-  let numLabel;
-  let roleLabel;
-  let bgText1;
-  let bgText2;
+  let track = null;
+  let slides = [];
+  let numLabel = null;
+  let roleLabel = null;
+  let bgText1 = null;
+  let bgText2 = null;
 
   function init() {
     if (hasInit) return;
@@ -102,8 +126,8 @@ const Carousel3D = (() => {
     bgText1 = document.getElementById('bgText1');
     bgText2 = document.getElementById('bgText2');
 
-    slides.forEach((slide, i) => {
-      slide.style.setProperty('--slide-angle', `${i * stepAngle}deg`);
+    slides.forEach((slide, index) => {
+      slide.style.setProperty('--slide-angle', `${index * stepAngle}deg`);
     });
 
     const prevBtn = document.getElementById('prevBtn');
@@ -132,17 +156,15 @@ const Carousel3D = (() => {
     });
 
     render();
-
-    // เริ่มนับทันทีตอนหน้าเว็บพร้อม ไม่ต้องรอกด ไม่ต้องรอสลับแท็บ
     startAutoPlay();
   }
 
-  function navigate(dir = +1) {
+  function navigate(direction = +1) {
     if (isAnimating || document.hidden) return;
 
     isAnimating = true;
 
-    currentRotation += dir * -stepAngle;
+    currentRotation += direction * -stepAngle;
     render();
 
     window.setTimeout(() => {
@@ -150,21 +172,21 @@ const Carousel3D = (() => {
     }, ANIMATION_LOCK);
   }
 
-  function manualNavigate(dir) {
-    navigate(dir);
+  function manualNavigate(direction) {
+    navigate(direction);
     startAutoPlay();
   }
 
   function render() {
-    if (!track || !slides?.length) return;
+    if (!track || !slides.length) return;
 
     track.style.transform = `rotateY(${currentRotation}deg)`;
 
     let activeIndex = Math.round(currentRotation / -stepAngle) % total;
     if (activeIndex < 0) activeIndex += total;
 
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('is-active', i === activeIndex);
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('is-active', index === activeIndex);
     });
 
     const meta = slideData[activeIndex] || slideData[activeIndex % slideData.length];
@@ -206,18 +228,19 @@ const Carousel3D = (() => {
   return {
     init,
     startAutoPlay,
-    stopAutoPlay
+    stopAutoPlay,
   };
 })();
 
+/* ============================================================
+   APPLICATION BOOTSTRAP
+   ============================================================ */
 
-// ── Application Bootstrapping Initializer ───────────────────────
 function bootApp() {
   BlobParallax.init();
   Carousel3D.init();
 }
 
-// กันบั๊ก script โหลดช้ากว่า DOMContentLoaded แล้วระบบไม่เริ่ม
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', bootApp, { once: true });
 } else {

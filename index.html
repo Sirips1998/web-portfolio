@@ -6,7 +6,6 @@
 
   <title>Asahi Kyouya Portfolio</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -14,25 +13,16 @@
     rel="stylesheet"
   />
 
-  <!-- Tailwind CDN ใช้สำหรับ utility class ในหน้า HTML -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Main CSS -->
   <link rel="stylesheet" href="./style.css" />
-
-  <!-- Main JS: ใช้ defer เพื่อให้ script รันหลัง HTML โหลดพร้อม -->
   <script src="./script.js" defer></script>
 </head>
 
-<body class="font-['DM_Sans'] text-[#1A1A1A]">
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <header class="fixed top-0 left-0 z-50 w-full px-6 py-6 md:px-10">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between">
-      <a href="#" class="nav-link">ASAHI K.</a>
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a href="#works" class="nav-logo">ASAHI K.</a>
 
-      <div class="flex items-center gap-6 md:gap-10">
+      <div class="nav-menu">
         <a href="#works" class="nav-link">Works</a>
         <a href="#about" class="nav-link">About</a>
         <a href="#contact" class="nav-link">Contact</a>
@@ -40,164 +30,125 @@
     </nav>
   </header>
 
-
-  <!-- ============================================================
-       SECTION 1: 3D CAROUSEL HERO
-       ============================================================ -->
   <main>
-    <section
-      id="works"
-      class="works-section relative flex min-h-screen items-center justify-center px-6 py-24"
-    >
-      <!-- Ambient blobs -->
+    <section id="works" class="works-section">
       <div class="blob-wrapper">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
       </div>
 
-      <!-- Big background text behind character -->
       <div class="card-bg-text" aria-hidden="true">
         <div id="bgText1" class="card-bg-line">THE</div>
         <div id="bgText2" class="card-bg-line card-bg-line--offset">GAMER</div>
       </div>
 
-      <!-- Carousel content -->
-      <div class="relative z-10 flex w-full max-w-7xl flex-col items-center justify-center">
-        <!-- Small status -->
-        <div class="mb-8 flex w-full max-w-5xl items-center justify-between text-xs tracking-[0.28em] text-[#6B6B6B]">
+      <div class="works-content">
+        <div class="carousel-meta">
           <span id="currentSlideNum">01 / 04</span>
-          <span id="currentSlideRole" class="text-right">Intense · Reactive</span>
+          <span id="currentSlideRole">Intense · Reactive</span>
         </div>
 
-        <!-- 3D Carousel Stage -->
         <div class="crs-viewport">
           <div class="crs-stage">
             <div id="carouselTrack" class="crs-track">
-              <!-- Slide 01 -->
-<article class="crs-slide is-active">
-  <div class="crs-card">
-    <div class="crs-img-wrap">
-      <img
-        src="./Gaming-Character.png"
-        alt="Gaming character"
-        class="crs-img"
-        draggable="false"
-      />
-      <div class="crs-shadow"></div>
-    </div>
-  </div>
-</article>
+              
+              <article class="crs-slide is-active">
+                <div class="crs-card">
+                  <div class="crs-img-wrap">
+                    <img
+                      src="./Gaming-Character.png"
+                      alt="Gaming character"
+                      class="crs-img"
+                      draggable="false"
+                    />
+                    <div class="crs-shadow"></div>
+                  </div>
+                </div>
+              </article>
 
-<!-- Slide 02 -->
-<article class="crs-slide">
-  <div class="crs-card">
-    <div class="crs-img-wrap">
-      <img
-        src="./Office-Character.png"
-        alt="Office character"
-        class="crs-img"
-        draggable="false"
-      />
-      <div class="crs-shadow"></div>
-    </div>
-  </div>
-</article>
+              <article class="crs-slide">
+                <div class="crs-card">
+                  <div class="crs-img-wrap">
+                    <img
+                      src="./Office-Character.png"
+                      alt="Office character"
+                      class="crs-img"
+                      draggable="false"
+                    />
+                    <div class="crs-shadow"></div>
+                  </div>
+                </div>
+              </article>
 
-<!-- Slide 03 -->
-<article class="crs-slide">
-  <div class="crs-card">
-    <div class="crs-img-wrap">
-      <img
-        src="./Coder-Character.png"
-        alt="Coder character"
-        class="crs-img"
-        draggable="false"
-      />
-      <div class="crs-shadow"></div>
-    </div>
-  </div>
-</article>
+              <article class="crs-slide">
+                <div class="crs-card">
+                  <div class="crs-img-wrap">
+                    <img
+                      src="./Coder-Character.png"
+                      alt="Coder character"
+                      class="crs-img"
+                      draggable="false"
+                    />
+                    <div class="crs-shadow"></div>
+                  </div>
+                </div>
+              </article>
 
-<!-- Slide 04 -->
-<article class="crs-slide">
-  <div class="crs-card">
-    <div class="crs-img-wrap">
-      <img
-        src="./Fantasy-Character.png"
-        alt="Fantasy character"
-        class="crs-img"
-        draggable="false"
-      />
-      <div class="crs-shadow"></div>
-    </div>
-  </div>
-</article>
-                  
+              <article class="crs-slide">
+                <div class="crs-card">
+                  <div class="crs-img-wrap">
+                    <img
+                      src="./Fantasy-Character.png"
+                      alt="Fantasy character"
+                      class="crs-img"
+                      draggable="false"
+                    />
+                    <div class="crs-shadow"></div>
+                  </div>
+                </div>
+              </article>
+
             </div>
           </div>
         </div>
 
-        <!-- Carousel Controls -->
-        <div class="mt-10 flex items-center gap-5">
-          <button
-            id="prevBtn"
-            type="button"
-            aria-label="Previous slide"
-            class="group flex h-12 w-12 items-center justify-center rounded-full border border-black/15 bg-white/30 text-2xl text-[#1A1A1A] backdrop-blur transition hover:bg-white/70"
-          >
+        <div class="carousel-controls">
+          <button id="prevBtn" class="carousel-btn" type="button" aria-label="Previous slide">
             ‹
           </button>
 
-          <button
-            id="nextBtn"
-            type="button"
-            aria-label="Next slide"
-            class="group flex h-12 w-12 items-center justify-center rounded-full border border-black/15 bg-white/30 text-2xl text-[#1A1A1A] backdrop-blur transition hover:bg-white/70"
-          >
+          <button id="nextBtn" class="carousel-btn" type="button" aria-label="Next slide">
             ›
           </button>
         </div>
 
-        <!-- Scroll hint -->
-        <a
-          href="#about"
-          class="scroll-hint mt-12 flex flex-col items-center gap-3 text-[0.65rem] uppercase tracking-[0.28em] text-[#6B6B6B]"
-        >
+        <a href="#about" class="scroll-hint">
           <span>Scroll</span>
           <span class="scroll-line"></span>
         </a>
       </div>
     </section>
 
-
-    <!-- ============================================================
-         SECTION 2: ABOUT / IDENTITY
-         ============================================================ -->
-    <section
-      id="about"
-      class="relative flex min-h-screen items-center px-6 py-24 md:px-10"
-    >
+    <section id="about" class="about-section">
       <div class="blob-wrapper">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
       </div>
 
-      <div class="hero-content relative z-10 mx-auto grid w-full max-w-7xl gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-end">
-        <div>
-          <p class="eyebrow-line mb-6 text-xs uppercase tracking-[0.32em] text-[#6B6B6B]">
-            Modern 3D Interactive Portfolio
-          </p>
+      <div class="about-content">
+        <div class="about-title-block">
+          <p class="eyebrow-line">Modern 3D Interactive Portfolio</p>
 
-          <h1 class="headline font-['Cormorant_Garamond'] font-semibold">
+          <h1 class="headline">
             Asahi<br />
             Kyouya.
           </h1>
         </div>
 
-        <div class="max-w-xl">
-          <p class="role-text mb-8 text-lg leading-8 text-[#6B6B6B] md:text-xl">
+        <div class="about-copy-block">
+          <p class="role-text">
             A cinematic single-page portfolio built around expressive 3D motion,
             identity-driven visuals, and a clean interactive experience.
           </p>
@@ -210,24 +161,13 @@
       </div>
     </section>
 
+    <section id="contact" class="contact-section">
+      <div class="contact-content">
+        <p class="contact-eyebrow">Let’s Build Something</p>
 
-    <!-- ============================================================
-         SECTION 3: CONTACT
-         ============================================================ -->
-    <section
-      id="contact"
-      class="relative flex min-h-[60vh] items-center justify-center px-6 py-24 text-center md:px-10"
-    >
-      <div class="mx-auto max-w-3xl">
-        <p class="mb-5 text-xs uppercase tracking-[0.32em] text-[#6B6B6B]">
-          Let’s Build Something
-        </p>
+        <h2 class="contact-title">Ready to create?</h2>
 
-        <h2 class="font-['Cormorant_Garamond'] text-5xl font-semibold leading-none md:text-8xl">
-          Ready to create?
-        </h2>
-
-        <p class="mx-auto mt-8 max-w-xl text-base leading-7 text-[#6B6B6B]">
+        <p class="contact-copy">
           Available for creative direction, web experiences, interactive design,
           and portfolio-driven storytelling.
         </p>
