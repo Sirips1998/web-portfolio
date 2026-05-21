@@ -20,7 +20,6 @@
           },
           colors: {
             cream:   '#F5F2EE',
-            'cream-dark': '#EDE9E3',
             charcoal: '#1A1A1A',
             muted:   '#6B6B6B',
           },
@@ -34,48 +33,22 @@
 
 <body class="bg-cream font-body text-charcoal overflow-x-hidden">
 
-  <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-6">
-    <div class="blob-wrapper" aria-hidden="true">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-    </div>
-    <div class="absolute top-8 left-8 md:top-10 md:left-12">
+  <section id="works" class="works-section relative overflow-hidden flex flex-col items-center justify-center min-h-screen pt-20 pb-10">
+    
+    <div class="absolute top-8 left-8 md:top-10 md:left-12 z-20">
       <span class="text-xs tracking-[0.25em] text-muted uppercase font-body font-medium select-none">Portfolio — 2026</span>
     </div>
-    <div class="absolute top-8 right-8 md:top-10 md:right-12 flex items-center gap-6">
-      <a href="#works"   class="nav-link">Works</a>
+    <div class="absolute top-8 right-8 md:top-10 md:right-12 flex items-center gap-6 z-20">
       <a href="#about"   class="nav-link">About</a>
       <a href="#contact" class="nav-link">Contact</a>
     </div>
-    <div class="relative z-10 text-center max-w-5xl mx-auto hero-content">
-      <h1 class="headline font-display font-light text-charcoal leading-none tracking-tight mb-6 md:mb-8">
-        Asahi<br /><em class="font-light not-italic">Kyouya.</em>
-      </h1>
-      <p class="role-text font-body font-light text-muted tracking-[0.18em] uppercase text-xs md:text-sm mb-12 md:mb-14">
-        Motion Designer &nbsp;&amp;&nbsp; Frontend Developer
-      </p>
-      <div class="flex justify-center">
-        <a href="#works" class="cta-btn" id="ctaBtn">
-          <span class="cta-label">Selected Works</span>
-          <span class="cta-arrow" aria-hidden="true">↗</span>
-        </a>
-      </div>
-    </div>
-  </section>
 
-  <section id="works" class="works-section relative overflow-hidden flex flex-col items-center justify-center min-h-screen">
-    
     <div class="works-bg-text absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0">
       <span class="bg-text-line">CODER</span>
       <span class="bg-text-line bg-text-line--offset">ADVENTURER</span>
     </div>
 
-    <div class="text-center mb-10 relative z-10 mt-10">
-      <h2 class="font-display font-light text-charcoal text-4xl md:text-5xl">Selected Works</h2>
-    </div>
-
-    <div class="crs-viewport relative z-10 w-full flex items-center justify-center px-4">
+    <div class="crs-viewport relative z-10 w-full flex items-center justify-center px-4 mt-8">
       
       <button class="crs-arrow mx-4 md:mx-10" id="prevBtn" aria-label="Previous">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg>
@@ -128,12 +101,42 @@
       </button>
     </div>
 
-    <div class="crs-info relative z-10 mt-12 text-center pb-10">
+    <div class="crs-info relative z-10 mt-8 text-center pb-4">
       <span class="crs-num text-xs tracking-widest text-muted block mb-2" id="currentSlideNum">01 / 04</span>
       <h3 class="crs-name font-display text-3xl md:text-4xl text-charcoal mb-1" id="currentSlideName">The Gamer</h3>
       <p class="crs-role text-sm tracking-wide text-muted" id="currentSlideRole">Intense · Reactive</p>
     </div>
+    
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 scroll-hint z-20">
+      <a href="#about" class="text-[10px] tracking-[0.25em] text-muted/60 uppercase hover:text-charcoal transition-colors">Scroll to About</a>
+      <div class="scroll-line"></div>
+    </div>
 
+  </section>
+
+
+  <section id="about" class="relative min-h-[80vh] flex flex-col items-center justify-center px-6 border-t border-black/5">
+    
+    <div class="blob-wrapper" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <div class="relative z-10 text-center max-w-5xl mx-auto hero-content pt-10">
+      <h1 class="headline font-display font-light text-charcoal leading-none tracking-tight mb-6 md:mb-8">
+        Asahi<br /><em class="font-light not-italic">Kyouya.</em>
+      </h1>
+      <p class="role-text font-body font-light text-muted tracking-[0.18em] uppercase text-xs md:text-sm mb-12 md:mb-14">
+        Motion Designer &nbsp;&amp;&nbsp; Frontend Developer
+      </p>
+      <div class="flex justify-center">
+        <a href="#contact" class="cta-btn" id="ctaBtn">
+          <span class="cta-label">Get in Touch</span>
+          <span class="cta-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
   </section>
 
   <script src="api.js"></script>
