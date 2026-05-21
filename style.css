@@ -246,3 +246,371 @@ body {
   .blob-2 { width: 280px; height: 280px; }
   .blob-3 { width: 240px; height: 240px; }
 }
+
+
+/* ============================================================
+   3D CAROUSEL — Characters & Roles
+   ============================================================ */
+
+/* ---------- Carousel custom vars ---------- */
+:root {
+  --card-w:        340px;
+  --card-h:        480px;
+  --ring-radius:   480px;    /* distance from center → card face */
+  --card-gap-angle: 90deg;   /* 360 / 4 cards */
+  --card-bg:       rgba(255, 252, 248, 0.85);
+  --card-border:   rgba(26, 26, 26, 0.07);
+  --card-shadow:   0 32px 80px rgba(26, 26, 26, 0.10), 0 4px 16px rgba(26, 26, 26, 0.06);
+  --card-shadow-active: 0 48px 120px rgba(26, 26, 26, 0.16), 0 8px 32px rgba(26, 26, 26, 0.10);
+  --elastic:       cubic-bezier(0.34, 1.56, 0.64, 1);   /* elastic bounce */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Section shell ---------- */
+.carousel-section {
+  background: var(--cream-dark);
+  padding: 12vh 1.5rem 10vh;
+  position: relative;
+}
+
+/* Subtle top border to separate from Hero */
+.carousel-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(26,26,26,0.12), transparent);
+}
+
+/* ---------- Section header ---------- */
+.carousel-header {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fade-up 0.9s var(--ease-out-expo) 0.2s forwards;
+}
+
+.carousel-section-title {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: 0.5rem;
+}
+
+/* ---------- Stage & Scene ---------- */
+.carousel-stage-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+.carousel-scene {
+  width: var(--card-w);
+  height: var(--card-h);
+  perspective: 1200px;
+  perspective-origin: 50% 40%;
+  position: relative;
+  /* Extra breathing room so side cards aren't clipped */
+  overflow: visible;
+}
+
+/* ---------- The rotating ring ---------- */
+.carousel-ring {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.72s var(--elastic);
+  will-change: transform;
+}
+
+/* ---------- Each card in 3D space ---------- */
+.carousel-card {
+  position: absolute;
+  width: var(--card-w);
+  height: var(--card-h);
+  top: 0;
+  left: 0;
+  /* JS sets --angle per card, then translateZ pushes to the ring radius */
+  transform: rotateY(var(--angle, 0deg)) translateZ(var(--ring-radius));
+  transform-style: preserve-3d;
+  transition:
+    opacity  0.55s var(--ease-out-expo),
+    filter   0.55s var(--ease-out-expo),
+    transform 0.72s var(--elastic);
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  cursor: pointer;
+}
+
+/* Non-active cards: dim + scale back */
+.carousel-card:not(.is-active) {
+  opacity: 0.40;
+  filter: blur(1.5px) saturate(0.6);
+}
+
+/* Active card: full brightness */
+.carousel-card.is-active {
+  opacity: 1;
+  filter: none;
+}
+
+/* ---------- Card inner face ---------- */
+.card-inner {
+  width: 100%;
+  height: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
+  position: relative;
+}
+
+.carousel-card.is-active .card-inner {
+  box-shadow: var(--card-shadow-active);
+}
+
+/* Subtle inner glow on active card */
+.carousel-card.is-active .card-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.5) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Hover lift for active card */
+.carousel-card.is-active:hover .card-inner {
+  transform: translateY(-6px) scale(1.012);
+  box-shadow: 0 60px 140px rgba(26,26,26,0.18), 0 12px 40px rgba(26,26,26,0.10);
+}
+
+/* ---------- Card image area ---------- */
+.card-image-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.6s var(--ease-out-expo);
+  user-select: none;
+  -webkit-user-drag: none;
+  /* Darken background so PNG transparent bg blends with card */
+  background: transparent;
+}
+
+/* Slight zoom on hover */
+.carousel-card.is-active:hover .card-img {
+  transform: scale(1.04);
+}
+
+/* Gradient overlay so caption is legible */
+.card-image-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(245,242,238,0.96) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ---------- Card caption ---------- */
+.card-caption {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 1.2rem 1.6rem 1.6rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.card-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.45rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s 0.1s var(--ease-out-expo), transform 0.45s 0.1s var(--ease-out-expo);
+}
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.65rem;
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  color: var(--charcoal);
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.45s 0.18s var(--ease-out-expo), transform 0.45s 0.18s var(--ease-out-expo);
+}
+
+.card-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 300;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s 0.26s var(--ease-out-expo), transform 0.45s 0.26s var(--ease-out-expo);
+}
+
+/* Reveal caption elements when card is active */
+.carousel-card.is-active .card-tag,
+.carousel-card.is-active .card-title,
+.carousel-card.is-active .card-sub {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Navigation Controls ---------- */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 0.5rem;
+}
+
+.carousel-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  background: transparent;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.3s var(--transition-smooth),
+    color      0.3s var(--transition-smooth),
+    border-color 0.3s var(--transition-smooth),
+    transform  0.25s var(--elastic);
+  outline: none;
+}
+
+.carousel-btn:hover {
+  background: var(--charcoal);
+  color: var(--cream);
+  border-color: var(--charcoal);
+  transform: scale(1.08);
+}
+
+.carousel-btn:active {
+  transform: scale(0.94);
+}
+
+/* ---------- Dot indicators ---------- */
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(26, 26, 26, 0.22);
+  padding: 0;
+  cursor: pointer;
+  transition:
+    width      0.35s var(--elastic),
+    background 0.3s var(--transition-smooth),
+    transform  0.3s var(--elastic);
+  outline: none;
+}
+
+.dot.active {
+  width: 22px;
+  border-radius: 3px;
+  background: var(--charcoal);
+}
+
+.dot:hover:not(.active) {
+  background: rgba(26, 26, 26, 0.50);
+  transform: scale(1.2);
+}
+
+/* ---------- Slide counter ---------- */
+.carousel-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+.counter-sep {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--muted);
+  opacity: 0.4;
+}
+
+/* ---------- Keyboard focus ring ---------- */
+.carousel-btn:focus-visible,
+.dot:focus-visible {
+  outline: 2px solid var(--charcoal);
+  outline-offset: 3px;
+}
+
+/* ---------- Carousel responsive ---------- */
+@media (max-width: 480px) {
+  :root {
+    --card-w:      280px;
+    --card-h:      400px;
+    --ring-radius: 380px;
+  }
+
+  .carousel-section-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --card-w:      240px;
+    --card-h:      340px;
+    --ring-radius: 320px;
+  }
+}

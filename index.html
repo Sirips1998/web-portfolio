@@ -104,10 +104,124 @@
   <!-- =================== END HERO SECTION =================== -->
 
 
-  <!-- ====== PLACEHOLDER: More sections will be added ====== -->
-  <section id="works"   class="min-h-screen flex items-center justify-center bg-cream-dark">
-    <p class="text-muted tracking-widest text-sm uppercase">— Selected Works (coming soon) —</p>
+  <!-- ===================== WORKS / CAROUSEL SECTION =====================
+       📌 วางต่อจาก Hero Section ทันที — ไม่ต้องมี gap พิเศษ เพราะ
+          section นี้มี padding-top: 10vh ใน CSS เพื่อให้ห่างพอดี
+  ===================================================================== -->
+  <section id="works" class="carousel-section relative overflow-hidden">
+
+    <!-- Section header -->
+    <div class="text-center mb-16 md:mb-24 carousel-header">
+      <span class="inline-flex items-center gap-3 text-xs tracking-[0.3em] text-muted uppercase mb-5">
+        <span class="w-8 h-px bg-muted/40 inline-block"></span>
+        Selected Works
+        <span class="w-8 h-px bg-muted/40 inline-block"></span>
+      </span>
+      <h2 class="font-display font-light text-charcoal carousel-section-title">
+        Characters &amp; Roles
+      </h2>
+    </div>
+
+    <!-- 3D Carousel Stage -->
+    <div class="carousel-stage-wrapper" aria-label="Character carousel">
+
+      <!-- The rotating ring -->
+      <div class="carousel-scene" id="carouselScene">
+        <div class="carousel-ring" id="carouselRing">
+
+          <!-- Card 1 -->
+          <div class="carousel-card" data-index="0">
+            <div class="card-inner">
+              <div class="card-image-wrap">
+                <img src="images/gaming.png" alt="Gamer — intense focus mode" class="card-img" draggable="false" />
+              </div>
+              <div class="card-caption">
+                <span class="card-tag">Character 01</span>
+                <p class="card-title">The Gamer</p>
+                <p class="card-sub">Intense · Reactive · In the Zone</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="carousel-card" data-index="1">
+            <div class="card-inner">
+              <div class="card-image-wrap">
+                <img src="images/office.png" alt="Designer — thoughtful planner" class="card-img" draggable="false" />
+              </div>
+              <div class="card-caption">
+                <span class="card-tag">Character 02</span>
+                <p class="card-title">The Planner</p>
+                <p class="card-sub">Thoughtful · Strategic · Detail-Driven</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="carousel-card" data-index="2">
+            <div class="card-inner">
+              <div class="card-image-wrap">
+                <img src="images/coder.png" alt="Developer — deadline mode" class="card-img" draggable="false" />
+              </div>
+              <div class="card-caption">
+                <span class="card-tag">Character 03</span>
+                <p class="card-title">The Developer</p>
+                <p class="card-sub">Focused · Caffeine-Powered · Builder</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="carousel-card" data-index="3">
+            <div class="card-inner">
+              <div class="card-image-wrap">
+                <img src="images/fantasy.png" alt="Mage — creative wizard" class="card-img" draggable="false" />
+              </div>
+              <div class="card-caption">
+                <span class="card-tag">Character 04</span>
+                <p class="card-title">The Creative</p>
+                <p class="card-sub">Visionary · Magical · Unconventional</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /carousel-ring -->
+      </div><!-- /carousel-scene -->
+
+      <!-- Navigation Controls -->
+      <div class="carousel-controls" role="group" aria-label="Carousel navigation">
+        <button class="carousel-btn" id="prevBtn" aria-label="Previous character">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M11 14L6 9L11 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Dot indicators -->
+        <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Go to slide">
+          <button class="dot active" data-slide="0" role="tab" aria-selected="true"  aria-label="Slide 1"></button>
+          <button class="dot"        data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+          <button class="dot"        data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+          <button class="dot"        data-slide="3" role="tab" aria-selected="false" aria-label="Slide 4"></button>
+        </div>
+
+        <button class="carousel-btn" id="nextBtn" aria-label="Next character">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+    </div><!-- /carousel-stage-wrapper -->
+
+    <!-- Subtle counter -->
+    <div class="carousel-counter" id="carouselCounter" aria-live="polite">
+      <span id="currentSlide">01</span>
+      <span class="counter-sep"></span>
+      <span class="counter-total">04</span>
+    </div>
+
   </section>
+  <!-- =================== END WORKS / CAROUSEL SECTION =================== -->
 
 
   <!-- Scripts: API layer first, then main script -->

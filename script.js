@@ -142,17 +142,223 @@ const CtaGlow = (() => {
 
 })();
 
+// ── 3D Carousel ────────────────────────────────────────────────
+/**
+ * Carousel3D
+ * Controls a CSS 3D rotary carousel with 4 cards.
+ *
+ * Layout math:
+ *   Each card sits on a ring of radius R.
+ *   With N cards evenly spaced: card[i].angle = i × (360 / N) deg
+ *   To bring card[i] to front: ring.rotateY = -(i × stepAngle)
+ */
+const Carousel3D = (() => {
+
+  const TOTAL       = 4;
+  const STEP_ANGLE  = 360 / TOTAL;   // 90° per card
+  const AUTO_DELAY  = 4500;          // ms between auto-advances
+
+  let currentIndex = 0;
+  let autoTimer    = null;
+  let isAnimating  = false;
+  let touchStartX  = 0;
+
+  // DOM refs (populated in init)
+  let ring, cards, dots, prevBtn, nextBtn, currentLabel;
+
+  // ── Setup ──────────────────────────────────────────────────
+  function init() {
+    ring         = document.getElementById('carouselRing');
+    prevBtn      = document.getElementById('prevBtn');
+    nextBtn      = document.getElementById('nextBtn');
+    currentLabel = document.getElementById('currentSlide');
+
+    if (!ring) return;   // section not in DOM yet
+
+    cards = Array.from(ring.querySelectorAll('.carousel-card'));
+    dots  = Array.from(document.querySelectorAll('.dot'));
+
+    // Position each card on the ring via CSS custom property
+    cards.forEach((card, i) => {
+      card.style.setProperty('--angle', `${i * STEP_ANGLE}deg`);
+    });
+
+    // Button listeners
+    prevBtn?.addEventListener('click', () => navigate(-1));
+    nextBtn?.addEventListener('click', () => navigate(+1));
+
+    // Dot listeners
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goTo(i));
+    });
+
+    // Keyboard navigation (arrow keys when carousel is focused)
+    document.addEventListener('keydown', onKeyDown);
+
+    // Touch / swipe support
+    ring.addEventListener('touchstart', onTouchStart, { passive: true });
+    ring.addEventListener('touchend',   onTouchEnd,   { passive: true });
+
+    // Initial render
+    render(false);
+
+    // Auto-play
+    startAutoPlay();
+  }
+
+  // ── Navigation helpers ─────────────────────────────────────
+
+  /**
+   * Move carousel by a relative offset (+1 = next, -1 = prev).
+   * @param {number} dir
+   */
+  function navigate(dir) {
+    const next = (currentIndex + dir + TOTAL) % TOTAL;
+    goTo(next);
+  }
+
+  /**
+   * Jump directly to a specific slide index.
+   * Guards against double-firing during the CSS transition.
+   * @param {number} index
+   */
+  function goTo(index) {
+    if (index === currentIndex) return;
+    if (isAnimating) return;
+
+    isAnimating = true;
+    currentIndex = index;
+
+    render(true);
+
+    // Lock for the duration of the longest transition (CSS: 0.72s elastic)
+    setTimeout(() => { isAnimating = false; }, 780);
+
+    // Reset auto-play timer on manual interaction
+    restartAutoPlay();
+  }
+
+  // ── Render ─────────────────────────────────────────────────
+
+  /**
+   * Apply the current rotation to the ring and update all
+   * active-state classes, dots, and the counter label.
+   * @param {boolean} animate — false on first paint (skip transition)
+   */
+  function render(animate) {
+    // The ring rotates so that card[currentIndex] faces forward
+    const deg = -(currentIndex * STEP_ANGLE);
+
+    if (!animate) {
+      // Disable transition for instant first-paint
+      ring.style.transition = 'none';
+      ring.offsetHeight;     // force reflow
+    }
+
+    ring.style.transform = `rotateY(${deg}deg)`;
+
+    if (!animate) {
+      // Re-enable after paint
+      requestAnimationFrame(() => {
+        ring.style.transition = '';
+      });
+    }
+
+    // Update card states
+    cards.forEach((card, i) => {
+      card.classList.toggle('is-active', i === currentIndex);
+    });
+
+    // Update dots
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+      dot.setAttribute('aria-selected', String(i === currentIndex));
+    });
+
+    // Update counter label (01, 02, 03, 04)
+    if (currentLabel) {
+      currentLabel.textContent = String(currentIndex + 1).padStart(2, '0');
+    }
+  }
+
+  // ── Auto-play ──────────────────────────────────────────────
+
+  function startAutoPlay() {
+    autoTimer = setInterval(() => navigate(+1), AUTO_DELAY);
+  }
+
+  function stopAutoPlay() {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  }
+
+  function restartAutoPlay() {
+    stopAutoPlay();
+    startAutoPlay();
+  }
+
+  // Pause on hover / focus
+  function pauseOnInteraction() {
+    const section = document.getElementById('works');
+    if (!section) return;
+    section.addEventListener('mouseenter', stopAutoPlay);
+    section.addEventListener('mouseleave', startAutoPlay);
+    section.addEventListener('focusin',    stopAutoPlay);
+    section.addEventListener('focusout',   startAutoPlay);
+  }
+
+  // ── Keyboard ───────────────────────────────────────────────
+
+  function onKeyDown(e) {
+    // Only react when the carousel section is in view
+    const section = document.getElementById('works');
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      navigate(+1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigate(-1);
+    }
+  }
+
+  // ── Touch / Swipe ──────────────────────────────────────────
+
+  function onTouchStart(e) {
+    touchStartX = e.touches[0]?.clientX ?? 0;
+  }
+
+  function onTouchEnd(e) {
+    const dx = (e.changedTouches[0]?.clientX ?? 0) - touchStartX;
+    const THRESHOLD = 50;   // px minimum swipe
+
+    if (Math.abs(dx) < THRESHOLD) return;
+    navigate(dx < 0 ? +1 : -1);
+  }
+
+  // ── Public API ─────────────────────────────────────────────
+  return { init, goTo, navigate, pauseOnInteraction };
+
+})();
+
+
 // ── Boot ───────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   BlobParallax.init();
   SmoothScroll.init();
   CtaGlow.init();
+  Carousel3D.init();
+  Carousel3D.pauseOnInteraction();
 
-  // Example: load projects in background (data layer is ready)
+  // Data layer — load projects and pass to carousel when Works section is built
   if (window.PortfolioAPI) {
     window.PortfolioAPI.getProjects().then(projects => {
       console.log('[Portfolio] Projects loaded:', projects.length);
-      // TODO: pass `projects` to a renderer when Works section is built
     });
   }
 });
