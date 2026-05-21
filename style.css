@@ -16,13 +16,22 @@
   --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  margin: 0;
   background-color: var(--cream);
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 /* ============================================================
    HERO / IDENTITY SECTION SPECIFICS
@@ -35,6 +44,7 @@ body {
   pointer-events: none;
   z-index: 0;
 }
+
 .blob {
   position: absolute;
   border-radius: 50%;
@@ -44,35 +54,60 @@ body {
   will-change: transform, opacity;
   transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
 .blob-1 {
-  width: 520px; height: 520px;
+  width: 520px;
+  height: 520px;
   background: radial-gradient(circle, var(--accent-warm) 0%, transparent 70%);
-  top: -10%; left: -8%;
+  top: -10%;
+  left: -8%;
   animation-delay: 0.2s;
 }
+
 .blob-2 {
-  width: 440px; height: 440px;
+  width: 440px;
+  height: 440px;
   background: radial-gradient(circle, var(--accent-sage) 0%, transparent 70%);
-  bottom: 5%; right: -5%;
+  bottom: 5%;
+  right: -5%;
   animation-delay: 0.5s;
 }
+
 .blob-3 {
-  width: 360px; height: 360px;
+  width: 360px;
+  height: 360px;
   background: radial-gradient(circle, var(--accent-blush) 0%, transparent 70%);
-  top: 40%; left: 55%;
+  top: 40%;
+  left: 55%;
   animation-delay: 0.9s;
 }
+
 @keyframes blob-fade-in {
-  from { opacity: 0; transform: scale(0.85); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .hero-content {
   animation: content-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
+
 @keyframes content-rise {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .headline {
@@ -81,8 +116,15 @@ body {
   line-height: 0.92;
 }
 
-.eyebrow-line { opacity: 0; animation: fade-up 0.9s var(--ease-expo) 0.5s forwards; }
-.role-text { opacity: 0; animation: fade-up 0.9s var(--ease-expo) 0.75s forwards; }
+.eyebrow-line {
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 0.5s forwards;
+}
+
+.role-text {
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 0.75s forwards;
+}
 
 .nav-link {
   font-family: 'DM Sans', sans-serif;
@@ -95,23 +137,32 @@ body {
   position: relative;
   transition: color 0.3s var(--ease-smooth);
 }
+
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1px;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
   background: var(--charcoal);
   transition: width 0.3s var(--ease-smooth);
 }
-.nav-link:hover { color: var(--charcoal); }
-.nav-link:hover::after { width: 100%; }
+
+.nav-link:hover {
+  color: var(--charcoal);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
 
 .cta-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.9rem 2.2rem;
-  border: 1px solid rgba(26,26,26,0.3);
+  border: 1px solid rgba(26, 26, 26, 0.3);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
@@ -122,10 +173,13 @@ body {
   background: transparent;
   position: relative;
   overflow: hidden;
-  transition: color 0.45s var(--ease-smooth), border-color 0.45s var(--ease-smooth);
+  transition:
+    color 0.45s var(--ease-smooth),
+    border-color 0.45s var(--ease-smooth);
   opacity: 0;
   animation: fade-up 0.9s var(--ease-expo) 1s forwards;
 }
+
 .cta-btn::before {
   content: '';
   position: absolute;
@@ -136,22 +190,55 @@ body {
   transition: transform 0.45s var(--ease-smooth);
   z-index: 0;
 }
-.cta-btn:hover::before  { transform: scaleX(1); }
-.cta-btn:hover          { color: var(--cream); border-color: var(--charcoal); }
-.cta-label, .cta-arrow  { position: relative; z-index: 1; }
-.cta-arrow              { transition: transform 0.35s var(--ease-smooth); }
-.cta-btn:hover .cta-arrow { transform: translate(3px,-3px); }
 
-.scroll-hint { opacity: 0; animation: fade-in 1s ease 1.6s forwards; }
+.cta-btn:hover::before {
+  transform: scaleX(1);
+}
+
+.cta-btn:hover {
+  color: var(--cream);
+  border-color: var(--charcoal);
+}
+
+.cta-label,
+.cta-arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-arrow {
+  transition: transform 0.35s var(--ease-smooth);
+}
+
+.cta-btn:hover .cta-arrow {
+  transform: translate(3px, -3px);
+}
+
+.scroll-hint {
+  opacity: 0;
+  animation: fade-in 1s ease 1.6s forwards;
+}
+
 .scroll-line {
-  width: 1px; height: 40px;
+  width: 1px;
+  height: 40px;
   background: linear-gradient(to bottom, var(--muted), transparent);
   animation: scroll-pulse 2.2s ease-in-out 1.8s infinite;
 }
+
 @keyframes scroll-pulse {
-  0%,100% { opacity:0.5; transform:scaleY(1); }
-  50%      { opacity:1;   transform:scaleY(1.25); }
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scaleY(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1.25);
+  }
 }
+
 
 /* ============================================================
    3D ROTARY INTERACTIVE CAROUSEL ARCHITECTURE
@@ -160,6 +247,8 @@ body {
 .works-section {
   background: var(--cream);
   overflow: hidden;
+  position: relative;
+  isolation: isolate;
 }
 
 /* ---------- Text Behind Image ---------- */
@@ -168,33 +257,55 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 0; /* ซ่อนหลังรูป */
-  pointer-events: none;
+
   width: 100vw;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.card-bg-line {
+/* Fill สีขาวเต็ม ๆ ไม่ใช่ Stroke */
+.card-bg-line,
+#bgText1,
+#bgText2 {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 600; /* ทำให้ตัวหนาขึ้น */
-  font-size: clamp(6rem, 20vw, 22rem);
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  /* สีขาวแบบ Fill เต็มๆ + เงานิดๆ */
-  color: #FFFFFF;
-  text-shadow: 4px 8px 24px rgba(0, 0, 0, 0.08); 
+  font-weight: 700;
+  font-size: clamp(6.5rem, 21vw, 23rem);
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
+
+  opacity: 0.96;
   white-space: nowrap;
+
+  text-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .card-bg-line--offset {
   transform: translateX(6%);
 }
 
+
 /* ---------- Central Stage Area Perspective Mapping ---------- */
-.crs-viewport { display: flex; align-items: center; justify-content: center; width: 100%; }
+.crs-viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
 .crs-stage {
   perspective: 1600px;
   perspective-origin: 50% 50%;
@@ -202,7 +313,9 @@ body {
   height: 560px;
   position: relative;
   overflow: visible;
+  z-index: 2;
 }
+
 
 /* ---------- The Rotary System Track ---------- */
 .crs-track {
@@ -214,15 +327,21 @@ body {
   will-change: transform;
 }
 
+
 /* ---------- Slide Geometric Configuration & Shrinking Effect ---------- */
 .crs-slide {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(1);
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  transition: opacity 0.55s var(--ease-expo), filter 0.55s var(--ease-expo), transform 0.8s var(--ease-elastic);
+  transition:
+    opacity 0.55s var(--ease-expo),
+    filter 0.55s var(--ease-expo),
+    transform 0.8s var(--ease-elastic);
   will-change: transform, opacity, filter;
 }
 
@@ -250,6 +369,7 @@ body {
   align-items: center;
   justify-content: flex-end;
 }
+
 .crs-img-wrap {
   flex: 1;
   width: 100%;
@@ -259,6 +379,7 @@ body {
   justify-content: flex-end;
   position: relative;
 }
+
 .crs-img {
   width: auto;
   max-width: 88%;
@@ -268,7 +389,7 @@ body {
   object-position: bottom center;
   display: block;
   position: relative;
-  z-index: 1;
+  z-index: 3;
   transition: transform 0.6s var(--ease-expo);
   user-select: none;
   -webkit-user-drag: none;
@@ -278,10 +399,18 @@ body {
 .crs-slide.is-active .crs-img {
   animation: float 4s ease-in-out infinite;
 }
+
 @keyframes float {
-  0%,100% { transform: translateY(0px); }
-  50%      { transform: translateY(-14px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
 }
+
 
 /* Contact Shadow Drop System Mapping */
 .crs-shadow {
@@ -291,39 +420,121 @@ body {
   transform: translateX(-50%);
   width: 55%;
   height: 24px;
-  background: radial-gradient(ellipse, rgba(26,26,26,0.18) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(26, 26, 26, 0.18) 0%, transparent 70%);
   border-radius: 50%;
   transition: opacity 0.5s var(--ease-expo);
+  z-index: 2;
 }
-.crs-slide:not(.is-active) .crs-shadow { opacity: 0; }
-.crs-slide.is-active .crs-shadow { opacity: 1; animation: shadow-scale 4s ease-in-out infinite; }
+
+.crs-slide:not(.is-active) .crs-shadow {
+  opacity: 0;
+}
+
+.crs-slide.is-active .crs-shadow {
+  opacity: 1;
+  animation: shadow-scale 4s ease-in-out infinite;
+}
 
 @keyframes shadow-scale {
-  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
-  50% { transform: translateX(-50%) scale(0.85); opacity: 0.6; }
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(-50%) scale(0.85);
+    opacity: 0.6;
+  }
 }
+
 
 /* ============================================================
    SHARED KEYFRAMES & RESPONSIVE TWEAKS
    ============================================================ */
+
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
 @media (max-width: 768px) {
-  .blob-1 { width: 280px; height: 280px; }
-  .blob-2 { width: 240px; height: 240px; }
-  .blob-3 { width: 200px; height: 200px; }
+  .blob-1 {
+    width: 280px;
+    height: 280px;
+  }
+
+  .blob-2 {
+    width: 240px;
+    height: 240px;
+  }
+
+  .blob-3 {
+    width: 200px;
+    height: 200px;
+  }
 
   .crs-stage {
     width: 82vw;
     height: 460px;
   }
-  .crs-slide { transform: rotateY(var(--slide-angle)) translateZ(300px); }
-  .card-bg-line { font-size: clamp(4.5rem, 22vw, 8rem); }
+
+  .crs-slide {
+    transform: rotateY(var(--slide-angle, 0deg)) translateZ(300px) scale(1);
+  }
+
+  .crs-slide:not(.is-active) {
+    transform: rotateY(var(--slide-angle, 0deg)) translateZ(300px) scale(0.85);
+  }
+
+  .crs-slide.is-active {
+    transform: rotateY(var(--slide-angle, 0deg)) translateZ(300px) scale(1);
+  }
+
+  .card-bg-line,
+  #bgText1,
+  #bgText2 {
+    font-size: clamp(4.8rem, 22vw, 8.5rem);
+    line-height: 0.85;
+  }
+}
+
+@media (max-width: 480px) {
+  .crs-stage {
+    width: 86vw;
+    height: 420px;
+  }
+
+  .crs-img {
+    max-width: 92%;
+    max-height: 410px;
+  }
+
+  .card-bg-line,
+  #bgText1,
+  #bgText2 {
+    font-size: clamp(4.2rem, 24vw, 7.2rem);
+  }
 }
