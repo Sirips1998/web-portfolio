@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asahi Kyouya — Portfolio</title>
+
+  <!-- Google Fonts: Cormorant Garamond (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Cormorant Garamond', 'serif'],
+            body:    ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            cream:   '#F5F2EE',
+            'cream-dark': '#EDE9E3',
+            charcoal: '#1A1A1A',
+            muted:   '#6B6B6B',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-cream font-body text-charcoal overflow-x-hidden">
+
+  <!-- ===================== HERO SECTION ===================== -->
+  <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-6">
+
+    <!-- Blur Blob Background (positioned absolutely, animated via JS) -->
+    <div class="blob-wrapper" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Subtle top-left label -->
+    <div class="absolute top-8 left-8 md:top-10 md:left-12">
+      <span class="text-xs tracking-[0.25em] text-muted uppercase font-body font-medium select-none">
+        Portfolio — 2025
+      </span>
+    </div>
+
+    <!-- Subtle top-right nav hint -->
+    <div class="absolute top-8 right-8 md:top-10 md:right-12 flex items-center gap-6">
+      <a href="#works"   class="nav-link">Works</a>
+      <a href="#about"   class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 text-center max-w-5xl mx-auto hero-content">
+
+      <!-- Eyebrow line -->
+      <div class="eyebrow-line mb-6 md:mb-8">
+        <span class="inline-flex items-center gap-3 text-xs tracking-[0.3em] text-muted uppercase">
+          <span class="w-8 h-px bg-muted/50 inline-block"></span>
+          Available for work
+          <span class="w-8 h-px bg-muted/50 inline-block"></span>
+        </span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="headline font-display font-light text-charcoal leading-none tracking-tight mb-6 md:mb-8">
+        Asahi<br />
+        <em class="font-light not-italic">Kyouya.</em>
+      </h1>
+
+      <!-- Role subtitle -->
+      <p class="role-text font-body font-light text-muted tracking-[0.18em] uppercase text-xs md:text-sm mb-12 md:mb-14">
+        Motion Designer &nbsp;&amp;&nbsp; Frontend Developer
+      </p>
+
+      <!-- CTA Button -->
+      <div class="flex justify-center">
+        <a href="#works" class="cta-btn" id="ctaBtn">
+          <span class="cta-label">Selected Works</span>
+          <span class="cta-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 scroll-hint">
+      <span class="text-[10px] tracking-[0.25em] text-muted/60 uppercase">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+
+  </section>
+  <!-- =================== END HERO SECTION =================== -->
+
+
+  <!-- ====== PLACEHOLDER: More sections will be added ====== -->
+  <section id="works"   class="min-h-screen flex items-center justify-center bg-cream-dark">
+    <p class="text-muted tracking-widest text-sm uppercase">— Selected Works (coming soon) —</p>
+  </section>
+
+
+  <!-- Scripts: API layer first, then main script -->
+  <script src="api.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
