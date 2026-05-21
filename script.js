@@ -33,9 +33,8 @@ const BlobParallax = (() => {
 
 const Carousel3D = (() => {
   const TOTAL = 4;
-  const STEP_ANGLE = 360 / TOTAL; // หมุนทีละ 90 องศา
+  const STEP_ANGLE = 360 / TOTAL; 
   
-  // ข้อมูลของแต่ละ Card
   const slideData = [
     { name: 'The Gamer', role: 'Intense · Reactive' },
     { name: 'The Planner', role: 'Strategic · Detail-Driven' },
@@ -57,7 +56,7 @@ const Carousel3D = (() => {
     nameLabel = document.getElementById('currentSlideName');
     roleLabel = document.getElementById('currentSlideRole');
 
-    // จัดเรียงการ์ดเป็นวงกลม 3D
+    // แจกแจงองศาให้การ์ดแต่ละใบ (0, 90, 180, 270)
     slides.forEach((slide, i) => {
       slide.style.setProperty('--slide-angle', `${i * STEP_ANGLE}deg`);
     });
@@ -74,6 +73,7 @@ const Carousel3D = (() => {
   }
 
   function render() {
+    // หมุนแกน Y ถอยหลัง เพื่อดึงการ์ดที่ต้องการมาไว้ข้างหน้า
     const deg = -(currentIndex * STEP_ANGLE);
     track.style.transform = `rotateY(${deg}deg)`;
 
@@ -81,7 +81,6 @@ const Carousel3D = (() => {
       slide.classList.toggle('is-active', i === currentIndex);
     });
 
-    // อัปเดตข้อความข้างล่าง
     if(numLabel) numLabel.textContent = `0${currentIndex + 1} / 04`;
     if(nameLabel) nameLabel.textContent = slideData[currentIndex].name;
     if(roleLabel) roleLabel.textContent = slideData[currentIndex].role;

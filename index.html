@@ -64,20 +64,20 @@
     </div>
   </section>
 
-  <section id="works" class="works-section relative overflow-hidden pt-32 pb-20">
+  <section id="works" class="works-section relative overflow-hidden flex flex-col items-center justify-center min-h-screen">
     
-    <div class="works-bg-text">
+    <div class="works-bg-text absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0">
       <span class="bg-text-line">CODER</span>
       <span class="bg-text-line bg-text-line--offset">ADVENTURER</span>
     </div>
 
-    <div class="text-center mb-16 relative z-10">
+    <div class="text-center mb-10 relative z-10 mt-10">
       <h2 class="font-display font-light text-charcoal text-4xl md:text-5xl">Selected Works</h2>
     </div>
 
-    <div class="crs-viewport">
+    <div class="crs-viewport relative z-10 w-full flex items-center justify-center px-4">
       
-      <button class="crs-arrow" id="prevBtn" aria-label="Previous">
+      <button class="crs-arrow mx-4 md:mx-10" id="prevBtn" aria-label="Previous">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
 
@@ -86,8 +86,8 @@
           
           <div class="crs-slide is-active" data-index="0">
             <div class="crs-card">
-              <div class="crs-img-wrap">
-                <img src="images/gaming.png" alt="Gamer" class="crs-img" draggable="false" />
+              <div class="crs-img-wrap relative">
+                <img src="images/Gaming-Character.png" alt="Gamer" class="crs-img" draggable="false" />
                 <div class="crs-shadow"></div>
               </div>
             </div>
@@ -95,8 +95,8 @@
 
           <div class="crs-slide" data-index="1">
             <div class="crs-card">
-              <div class="crs-img-wrap">
-                <img src="images/office.png" alt="Office" class="crs-img" draggable="false" />
+              <div class="crs-img-wrap relative">
+                <img src="images/Office-Character.png" alt="Office" class="crs-img" draggable="false" />
                 <div class="crs-shadow"></div>
               </div>
             </div>
@@ -104,8 +104,8 @@
 
           <div class="crs-slide" data-index="2">
             <div class="crs-card">
-              <div class="crs-img-wrap">
-                <img src="images/coder.png" alt="Coder" class="crs-img" draggable="false" />
+              <div class="crs-img-wrap relative">
+                <img src="images/Coder-Character.png" alt="Coder" class="crs-img" draggable="false" />
                 <div class="crs-shadow"></div>
               </div>
             </div>
@@ -113,8 +113,8 @@
 
           <div class="crs-slide" data-index="3">
             <div class="crs-card">
-              <div class="crs-img-wrap">
-                <img src="images/fantasy.png" alt="Fantasy" class="crs-img" draggable="false" />
+              <div class="crs-img-wrap relative">
+                <img src="images/Fantasy-Character.png" alt="Fantasy" class="crs-img" draggable="false" />
                 <div class="crs-shadow"></div>
               </div>
             </div>
@@ -123,15 +123,15 @@
         </div>
       </div>
 
-      <button class="crs-arrow" id="nextBtn" aria-label="Next">
+      <button class="crs-arrow mx-4 md:mx-10" id="nextBtn" aria-label="Next">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 
-    <div class="crs-info relative z-10 mt-8">
-      <span class="crs-num" id="currentSlideNum">01 / 04</span>
-      <h3 class="crs-name" id="currentSlideName">The Gamer</h3>
-      <p class="crs-role" id="currentSlideRole">Intense · Reactive</p>
+    <div class="crs-info relative z-10 mt-12 text-center pb-10">
+      <span class="crs-num text-xs tracking-widest text-muted block mb-2" id="currentSlideNum">01 / 04</span>
+      <h3 class="crs-name font-display text-3xl md:text-4xl text-charcoal mb-1" id="currentSlideName">The Gamer</h3>
+      <p class="crs-role text-sm tracking-wide text-muted" id="currentSlideRole">Intense · Reactive</p>
     </div>
 
   </section>
