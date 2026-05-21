@@ -163,6 +163,7 @@ body {
 }
 
 /* ---------- Giant Background Typography Layers ---------- */
+/* ย้ายข้อความนี้มาอยู่ z-index: 0 เพื่อให้อยู่หลังสุด */
 .works-bg-text {
   position: absolute;
   inset: 0;
@@ -189,7 +190,7 @@ body {
   transform: translateX(6%);
 }
 
-/* ---------- Circular Stage Viewport Definition ---------- */
+/* ---------- Central Stage Area Perspective Mapping ---------- */
 .crs-viewport { display: flex; align-items: center; justify-content: center; width: 100%; }
 .crs-stage {
   perspective: 1600px;
@@ -200,7 +201,7 @@ body {
   overflow: visible;
 }
 
-/* ---------- Structural Core 3D Carousel Ring ---------- */
+/* ---------- The Rotary System Track ---------- */
 .crs-track {
   width: 100%;
   height: 100%;
@@ -210,29 +211,36 @@ body {
   will-change: transform;
 }
 
-/* ---------- Slide Space Transformations ---------- */
+/* ---------- Slide Geometric Configuration & Shrinking Effect ---------- */
 .crs-slide {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   /* translateZ(480px) Determines ring geometry boundaries */
-  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px);
+  /* Added scale(1) to define the base shrinking point */
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(1);
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  transition: opacity 0.55s var(--ease-expo), filter 0.55s var(--ease-expo);
+  transition: opacity 0.55s var(--ease-expo), filter 0.55s var(--ease-expo), transform 0.8s var(--ease-elastic);
   will-change: transform, opacity, filter;
 }
 
-/* Inactive Slide Configurations (Depth Cue Blurring) */
+/* Non-active Slides Configuration (Depth Cue Blurring & Shrinking) */
 .crs-slide:not(.is-active) {
   opacity: 0.4;
   filter: blur(4px) grayscale(50%);
   pointer-events: none;
+  /* Added scale(0.85) to shrink slides when they go behind */
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(0.85);
 }
+
+/* Active Slide Configurations */
 .crs-slide.is-active {
   opacity: 1;
   filter: none;
   pointer-events: auto;
+  /* Active slide is at scale(1) */
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(1);
 }
 
 .crs-card {
@@ -267,7 +275,7 @@ body {
   -webkit-user-drag: none;
 }
 
-/* Core Micro-Animation: Floating Engine */
+/* Float animation only for active card images */
 .crs-slide.is-active .crs-img {
   animation: float 4s ease-in-out infinite;
 }
@@ -276,7 +284,7 @@ body {
   50%      { transform: translateY(-14px); }
 }
 
-/* Ground Ellipse Contact Shadow Drop Mapping */
+/* Contact Shadow Drop System Mapping */
 .crs-shadow {
   position: absolute;
   bottom: -8px;
@@ -296,38 +304,9 @@ body {
   50% { transform: translateX(-50%) scale(0.85); opacity: 0.6; }
 }
 
-/* Minimal Vector Navigation Anchors */
-.crs-arrow {
-  flex-shrink: 0;
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  border: 1px solid rgba(26,26,26,0.18);
-  background: rgba(245,242,238,0.7);
-  backdrop-filter: blur(8px);
-  color: var(--charcoal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  position: relative;
-  transition:
-    background  0.3s var(--ease-smooth),
-    color       0.3s var(--ease-smooth),
-    border-color 0.3s var(--ease-smooth),
-    transform   0.3s var(--ease-elastic);
-  outline: none;
-}
-.crs-arrow:hover {
-  background: var(--charcoal);
-  color: var(--cream);
-  border-color: var(--charcoal);
-  transform: scale(1.1);
-}
-.crs-arrow:active { transform: scale(0.92); }
-.crs-arrow:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 3px; }
-
-/* ---------- Interface Animation Utilities ---------- */
+/* ============================================================
+   SHARED KEYFRAMES & RESPONSIVE TWEAKS
+   ============================================================ */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -337,7 +316,6 @@ body {
   to   { opacity: 1; }
 }
 
-/* ---------- Breakpoint Adaptability Engine ---------- */
 @media (max-width: 768px) {
   .blob-1 { width: 280px; height: 280px; }
   .blob-2 { width: 240px; height: 240px; }
