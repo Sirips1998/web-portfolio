@@ -1,3 +1,8 @@
+/* ============================================================
+   style.css — Asahi Kyouya Portfolio
+   ============================================================ */
+
+/* ---------- CSS Custom Properties ---------- */
 :root {
   --cream:        #F5F2EE;
   --cream-dark:   #EDE9E3;
@@ -13,106 +18,364 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { background-color: var(--cream); -webkit-font-smoothing: antialiased; }
+body {
+  background-color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-/* HERO SECTION BLOB */
-.blob-wrapper { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-.blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0; animation: blob-fade-in 1.6s var(--ease-expo) forwards; will-change: transform, opacity; transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-.blob-1 { width: 520px; height: 520px; background: radial-gradient(circle, var(--accent-warm) 0%, transparent 70%); top: -10%; left: -8%; animation-delay: 0.2s; }
-.blob-2 { width: 440px; height: 440px; background: radial-gradient(circle, var(--accent-sage) 0%, transparent 70%); bottom: 5%; right: -5%; animation-delay: 0.5s; }
-.blob-3 { width: 360px; height: 360px; background: radial-gradient(circle, var(--accent-blush) 0%, transparent 70%); top: 40%; left: 55%; animation-delay: 0.9s; }
-@keyframes blob-fade-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+/* ============================================================
+   HERO SECTION / ABOUT
+   ============================================================ */
 
-/* HERO CONTENT */
-.hero-content { animation: content-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
-@keyframes content-rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-.headline { font-size: clamp(4.5rem, 13vw, 12rem); letter-spacing: -0.03em; line-height: 0.92; }
-.nav-link { font-size: 0.7rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); text-decoration: none; position: relative; transition: color 0.3s var(--ease-smooth); }
-.nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--charcoal); transition: width 0.3s var(--ease-smooth); }
-.nav-link:hover { color: var(--charcoal); } .nav-link:hover::after { width: 100%; }
+/* -- Blob background -- */
+.blob-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0;
+  animation: blob-fade-in 1.6s var(--ease-expo) forwards;
+  will-change: transform, opacity;
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.blob-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, var(--accent-warm) 0%, transparent 70%);
+  top: -10%; left: -8%;
+  animation-delay: 0.2s;
+}
+.blob-2 {
+  width: 440px; height: 440px;
+  background: radial-gradient(circle, var(--accent-sage) 0%, transparent 70%);
+  bottom: 5%; right: -5%;
+  animation-delay: 0.5s;
+}
+.blob-3 {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, var(--accent-blush) 0%, transparent 70%);
+  top: 40%; left: 55%;
+  animation-delay: 0.9s;
+}
+@keyframes blob-fade-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
-.cta-btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.9rem 2.2rem; border: 1px solid rgba(26,26,26,0.3); font-size: 0.7rem; font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase; color: var(--charcoal); text-decoration: none; position: relative; overflow: hidden; transition: color 0.45s var(--ease-smooth), border-color 0.45s var(--ease-smooth); }
-.cta-btn::before { content: ''; position: absolute; inset: 0; background: var(--charcoal); transform: scaleX(0); transform-origin: left center; transition: transform 0.45s var(--ease-smooth); z-index: 0; }
-.cta-btn:hover::before { transform: scaleX(1); } .cta-btn:hover { color: var(--cream); border-color: var(--charcoal); }
-.cta-label, .cta-arrow { position: relative; z-index: 1; }
+/* -- Hero content entrance -- */
+.hero-content {
+  animation: content-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+@keyframes content-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* -- Headline -- */
+.headline {
+  font-size: clamp(4.5rem, 13vw, 12rem);
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+/* -- Eyebrow / role text -- */
+.eyebrow-line {
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 0.5s forwards;
+}
+.role-text {
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 0.75s forwards;
+}
+
+/* -- Nav links -- */
+.nav-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s var(--ease-smooth);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--charcoal);
+  transition: width 0.3s var(--ease-smooth);
+}
+.nav-link:hover { color: var(--charcoal); }
+.nav-link:hover::after { width: 100%; }
+
+/* -- CTA Button -- */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 2.2rem;
+  border: 1px solid rgba(26,26,26,0.3);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  text-decoration: none;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.45s var(--ease-smooth), border-color 0.45s var(--ease-smooth);
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 1s forwards;
+}
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--charcoal);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--ease-smooth);
+  z-index: 0;
+}
+.cta-btn:hover::before  { transform: scaleX(1); }
+.cta-btn:hover          { color: var(--cream); border-color: var(--charcoal); }
+.cta-label, .cta-arrow  { position: relative; z-index: 1; }
+.cta-arrow              { transition: transform 0.35s var(--ease-smooth); }
 .cta-btn:hover .cta-arrow { transform: translate(3px,-3px); }
 
-/* WORKS BACKGROUND TEXT */
-.works-bg-text { display: flex; flex-direction: column; align-items: center; justify-content: center; user-select: none; }
-.bg-text-line { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(6rem, 18vw, 18rem); line-height: 0.85; letter-spacing: -0.02em; color: transparent; -webkit-text-stroke: 1px rgba(26, 26, 26, 0.08); white-space: nowrap; }
-.bg-text-line--offset { transform: translateX(5%); }
+/* -- Scroll indicator -- */
+.scroll-hint {
+  opacity: 0;
+  animation: fade-in 1s ease 1.6s forwards;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--muted), transparent);
+  animation: scroll-pulse 2.2s ease-in-out 1.8s infinite;
+}
+@keyframes scroll-pulse {
+  0%,100% { opacity:0.5; transform:scaleY(1); }
+  50%      { opacity:1;   transform:scaleY(1.25); }
+}
 
-/* 3D CAROUSEL STAGE */
-.crs-viewport { display: flex; align-items: center; justify-content: center; width: 100%; }
+/* ============================================================
+   WORKS / CAROUSEL SECTION
+   ============================================================ */
+
+/* ---------- Giant background text ---------- */
+.works-bg-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.bg-text-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(6rem, 20vw, 22rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(26, 26, 26, 0.065);
+  white-space: nowrap;
+}
+
+.bg-text-line--offset {
+  transform: translateX(6%);
+}
+
+/* ---------- Arrow buttons ---------- */
+.crs-arrow {
+  flex-shrink: 0;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(26,26,26,0.18);
+  background: rgba(245,242,238,0.7);
+  backdrop-filter: blur(8px);
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  position: relative;
+  transition:
+    background  0.3s var(--ease-smooth),
+    color       0.3s var(--ease-smooth),
+    border-color 0.3s var(--ease-smooth),
+    transform   0.3s var(--ease-elastic);
+  outline: none;
+  margin: 0 1.5rem;
+}
+.crs-arrow:hover {
+  background: var(--charcoal);
+  color: var(--cream);
+  border-color: var(--charcoal);
+  transform: scale(1.1);
+}
+.crs-arrow:active { transform: scale(0.92); }
+.crs-arrow:focus-visible { outline: 2px solid var(--charcoal); outline-offset: 3px; }
+
+/* ---------- 3D Stage ---------- */
 .crs-stage {
   perspective: 1600px; /* เพิ่มมิติความลึก */
   perspective-origin: 50% 50%;
-  width: 400px;
-  height: 500px;
+  width: min(500px, 88vw);
+  height: 560px;
   position: relative;
+  overflow: visible;
 }
 
-/* CAROUSEL TRACK & SLIDES */
+/* ---------- Track — the rotating carousel ring ---------- */
 .crs-track {
-  width: 100%; height: 100%; position: absolute;
+  width: 100%;
+  height: 100%;
+  position: relative;
   transform-style: preserve-3d;
+  /* JS drives this rotation */
+  transform: rotateY(0deg);
   transition: transform 0.8s var(--ease-elastic);
+  will-change: transform;
 }
+
+/* ---------- Individual slides ---------- */
 .crs-slide {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  /* translateZ(350px) คือรัศมีวงกลม ผลักให้รูปแยกออกจากกัน */
-  transform: rotateY(var(--slide-angle)) translateZ(350px);
+  /* JS sets --slide-angle per slide. ขยาย translateZ เพื่อให้เป็นวงกลมกว้างขึ้น */
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px);
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  transition: opacity 0.5s var(--ease-smooth), filter 0.5s var(--ease-smooth);
+  transition:
+    opacity 0.55s var(--ease-expo),
+    filter  0.55s var(--ease-expo);
+  will-change: transform, opacity, filter;
 }
 
-/* SLIDE STATES (Active vs Inactive) */
-.crs-slide:not(.is-active) { opacity: 0.2; filter: blur(3px) grayscale(50%); pointer-events: none; }
-.crs-slide.is-active { opacity: 1; filter: blur(0) grayscale(0); pointer-events: auto; }
+/* Non-active slides: dim + blur */
+.crs-slide:not(.is-active) {
+  opacity: 0.4; /* ให้ตัวข้างหลังชัดขึ้นมานิดนึง */
+  filter: blur(4px) grayscale(50%);
+  pointer-events: none;
+}
 
-/* IMAGE FLOAT ANIMATION */
-.crs-card { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
-.crs-img-wrap { width: 100%; display: flex; justify-content: center; position: relative; }
-.crs-img { width: auto; max-width: 100%; height: 420px; object-fit: contain; z-index: 2; position: relative; transition: transform 0.5s; }
-.crs-slide.is-active .crs-img { animation: float 3s ease-in-out infinite; }
+/* Active slide */
+.crs-slide.is-active {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
+/* ---------- Card face ---------- */
+.crs-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ---------- Image container (floating character) ---------- */
+.crs-img-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.crs-img {
+  width: auto;
+  max-width: 88%;
+  height: 100%;
+  max-height: 460px; /* ปรับขนาดรูปให้ใหญ่ขึ้นนิดนึง */
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.6s var(--ease-expo);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Float animation only for active */
+.crs-slide.is-active .crs-img {
+  animation: float 4s ease-in-out infinite;
+}
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-14px); }
 }
 
-/* SHADOW */
+/* Floor shadow (ellipse under character) */
 .crs-shadow {
-  position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-  width: 200px; height: 20px; border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(0,0,0,0.15) 0%, transparent 70%);
-  z-index: 1; opacity: 0; transition: opacity 0.5s;
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55%;
+  height: 24px;
+  background: radial-gradient(ellipse, rgba(26,26,26,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: opacity 0.5s var(--ease-expo);
 }
-.crs-slide.is-active .crs-shadow { opacity: 1; animation: shadow-scale 3s ease-in-out infinite; }
+
+.crs-slide:not(.is-active) .crs-shadow { opacity: 0; }
+.crs-slide.is-active .crs-shadow { opacity: 1; animation: shadow-scale 4s ease-in-out infinite; }
 
 @keyframes shadow-scale {
   0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
-  50% { transform: translateX(-50%) scale(0.8); opacity: 0.5; }
+  50% { transform: translateX(-50%) scale(0.85); opacity: 0.6; }
 }
 
-/* ARROW BUTTONS */
-.crs-arrow {
-  width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(26,26,26,0.2);
-  display: flex; align-items: center; justify-content: center; cursor: pointer;
-  background: transparent; color: var(--charcoal); transition: all 0.3s var(--ease-elastic);
-  z-index: 10;
+/* ============================================================
+   SHARED KEYFRAMES
+   ============================================================ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.crs-arrow:hover { background: var(--charcoal); color: var(--cream); transform: scale(1.1); }
-.crs-arrow:active { transform: scale(0.9); }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
-/* RESPONSIVE */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 768px) {
-  .crs-stage { width: 280px; height: 380px; }
-  .crs-img { height: 300px; }
-  .crs-slide { transform: rotateY(var(--slide-angle)) translateZ(250px); }
-  .crs-arrow { width: 40px; height: 40px; }
-  .bg-text-line { font-size: clamp(4rem, 15vw, 6rem); }
+  .blob-1 { width: 280px; height: 280px; }
+  .blob-2 { width: 240px; height: 240px; }
+  .blob-3 { width: 200px; height: 200px; }
+
+  .crs-stage {
+    width: 82vw;
+    height: 460px;
+  }
+  .crs-slide { transform: rotateY(var(--slide-angle)) translateZ(300px); } /* ลดความกว้างวงแหวนในมือถือ */
+  .bg-text-line { font-size: clamp(4.5rem, 22vw, 8rem); }
 }

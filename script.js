@@ -31,6 +31,9 @@ const BlobParallax = (() => {
   return { init };
 })();
 
+// ==========================================
+// แก้ไขระบบ Carousel 3D ตรงนี้!
+// ==========================================
 const Carousel3D = (() => {
   const TOTAL = 4;
   const STEP_ANGLE = 360 / TOTAL; 
@@ -42,7 +45,7 @@ const Carousel3D = (() => {
     { name: 'The Creative', role: 'Visionary · Unconventional' }
   ];
 
-  let currentIndex = 0;
+  let currentRotation = 0; // ตัวแปรพระเอก: จำองศาแบบบวกสะสมไปเรื่อยๆ (Infinity)
   let track, slides, prevBtn, nextBtn, numLabel, nameLabel, roleLabel;
 
   function init() {
@@ -56,7 +59,7 @@ const Carousel3D = (() => {
     nameLabel = document.getElementById('currentSlideName');
     roleLabel = document.getElementById('currentSlideRole');
 
-    // แจกแจงองศาให้การ์ดแต่ละใบ (0, 90, 180, 270)
+    // แจกแจงองศาให้การ์ด
     slides.forEach((slide, i) => {
       slide.style.setProperty('--slide-angle', `${i * STEP_ANGLE}deg`);
     });
@@ -68,22 +71,28 @@ const Carousel3D = (() => {
   }
 
   function navigate(dir) {
-    currentIndex = (currentIndex + dir + TOTAL) % TOTAL;
+    // หมุนไปข้างหน้า/ข้างหลัง ทีละ 90 องศาแบบสะสม
+    currentRotation += dir * -STEP_ANGLE;
     render();
   }
 
   function render() {
-    // หมุนแกน Y ถอยหลัง เพื่อดึงการ์ดที่ต้องการมาไว้ข้างหน้า
-    const deg = -(currentIndex * STEP_ANGLE);
-    track.style.transform = `rotateY(${deg}deg)`;
+    // หมุน 3D Track ตามองศาที่สะสม
+    track.style.transform = `rotateY(${currentRotation}deg)`;
 
+    // คำนวณหาว่าการ์ดใบไหนที่กำลังหันหน้ามาหาเรา
+    let activeIndex = Math.round(currentRotation / -STEP_ANGLE) % TOTAL;
+    if (activeIndex < 0) activeIndex += TOTAL; // กันค่าติดลบ
+
+    // อัปเดตสถานะ Active ให้การ์ดเด้ง
     slides.forEach((slide, i) => {
-      slide.classList.toggle('is-active', i === currentIndex);
+      slide.classList.toggle('is-active', i === activeIndex);
     });
 
-    if(numLabel) numLabel.textContent = `0${currentIndex + 1} / 04`;
-    if(nameLabel) nameLabel.textContent = slideData[currentIndex].name;
-    if(roleLabel) roleLabel.textContent = slideData[currentIndex].role;
+    // อัปเดตข้อความ
+    if(numLabel) numLabel.textContent = `0${activeIndex + 1} / 04`;
+    if(nameLabel) nameLabel.textContent = slideData[activeIndex].name;
+    if(roleLabel) roleLabel.textContent = slideData[activeIndex].role;
   }
 
   return { init };
