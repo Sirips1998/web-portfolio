@@ -1,6 +1,5 @@
 /* ============================================================
    style.css — Asahi Kyouya Portfolio
-   Custom styles, blob animations & refined UI details
    ============================================================ */
 
 /* ---------- CSS Custom Properties ---------- */
@@ -9,24 +8,27 @@
   --cream-dark:   #EDE9E3;
   --charcoal:     #1A1A1A;
   --muted:        #6B6B6B;
-  --accent-warm:  rgba(210, 180, 140, 0.35);   /* warm tan */
-  --accent-sage:  rgba(160, 185, 160, 0.28);   /* muted sage */
-  --accent-blush: rgba(215, 185, 175, 0.30);   /* dusty blush */
-  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --accent-warm:  rgba(210, 180, 140, 0.35);
+  --accent-sage:  rgba(160, 185, 160, 0.28);
+  --accent-blush: rgba(215, 185, 175, 0.30);
+  --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
-
 body {
   background-color: var(--cream);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---------- Blob Background ---------- */
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+
+/* -- Blob background -- */
 .blob-wrapper {
   position: absolute;
   inset: 0;
@@ -34,92 +36,65 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-
 .blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
   opacity: 0;
-  animation: blob-fade-in 1.6s var(--transition-smooth) forwards;
+  animation: blob-fade-in 1.6s var(--ease-expo) forwards;
   will-change: transform, opacity;
   transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-
-/* Blob sizes & positions */
 .blob-1 {
-  width: 520px;
-  height: 520px;
+  width: 520px; height: 520px;
   background: radial-gradient(circle, var(--accent-warm) 0%, transparent 70%);
-  top: -10%;
-  left: -8%;
+  top: -10%; left: -8%;
   animation-delay: 0.2s;
 }
-
 .blob-2 {
-  width: 440px;
-  height: 440px;
+  width: 440px; height: 440px;
   background: radial-gradient(circle, var(--accent-sage) 0%, transparent 70%);
-  bottom: 5%;
-  right: -5%;
+  bottom: 5%; right: -5%;
   animation-delay: 0.5s;
 }
-
 .blob-3 {
-  width: 360px;
-  height: 360px;
+  width: 360px; height: 360px;
   background: radial-gradient(circle, var(--accent-blush) 0%, transparent 70%);
-  top: 40%;
-  left: 55%;
+  top: 40%; left: 55%;
   animation-delay: 0.9s;
 }
-
 @keyframes blob-fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
-/* ---------- Hero Content Entrance ---------- */
+/* -- Hero content entrance -- */
 .hero-content {
-  animation: content-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 0.3s;
+  animation: content-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
-
 @keyframes content-rise {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.eyebrow-line {
-  opacity: 0;
-  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
-}
-
-/* ---------- Headline Typography ---------- */
+/* -- Headline -- */
 .headline {
   font-size: clamp(4.5rem, 13vw, 12rem);
   letter-spacing: -0.03em;
   line-height: 0.92;
 }
 
-/* ---------- Role text ---------- */
+/* -- Eyebrow / role text -- */
+.eyebrow-line {
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 0.5s forwards;
+}
 .role-text {
   opacity: 0;
-  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
+  animation: fade-up 0.9s var(--ease-expo) 0.75s forwards;
 }
 
-/* ---------- Navigation Links ---------- */
+/* -- Nav links -- */
 .nav-link {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.7rem;
@@ -129,36 +104,26 @@ body {
   color: var(--muted);
   text-decoration: none;
   position: relative;
-  transition: color 0.3s var(--transition-smooth);
+  transition: color 0.3s var(--ease-smooth);
 }
-
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
   background: var(--charcoal);
-  transition: width 0.3s var(--transition-smooth);
+  transition: width 0.3s var(--ease-smooth);
 }
+.nav-link:hover { color: var(--charcoal); }
+.nav-link:hover::after { width: 100%; }
 
-.nav-link:hover {
-  color: var(--charcoal);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-/* ---------- CTA Button ---------- */
+/* -- CTA Button -- */
 .cta-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.9rem 2.2rem;
-  border: 1px solid rgba(26, 26, 26, 0.3);
-  border-radius: 0;                              /* sharp corners = luxury */
+  border: 1px solid rgba(26,26,26,0.3);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
@@ -169,14 +134,10 @@ body {
   background: transparent;
   position: relative;
   overflow: hidden;
-  transition:
-    color   0.45s var(--transition-smooth),
-    border-color 0.45s var(--transition-smooth);
+  transition: color 0.45s var(--ease-smooth), border-color 0.45s var(--ease-smooth);
   opacity: 0;
-  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+  animation: fade-up 0.9s var(--ease-expo) 1s forwards;
 }
-
-/* Fill sweep on hover */
 .cta-btn::before {
   content: '';
   position: absolute;
@@ -184,433 +145,303 @@ body {
   background: var(--charcoal);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.45s var(--transition-smooth);
+  transition: transform 0.45s var(--ease-smooth);
   z-index: 0;
 }
+.cta-btn:hover::before  { transform: scaleX(1); }
+.cta-btn:hover          { color: var(--cream); border-color: var(--charcoal); }
+.cta-label, .cta-arrow  { position: relative; z-index: 1; }
+.cta-arrow              { transition: transform 0.35s var(--ease-smooth); }
+.cta-btn:hover .cta-arrow { transform: translate(3px,-3px); }
 
-.cta-btn:hover::before {
-  transform: scaleX(1);
-}
-
-.cta-btn:hover {
-  color: var(--cream);
-  border-color: var(--charcoal);
-}
-
-.cta-label,
-.cta-arrow {
-  position: relative;
-  z-index: 1;
-}
-
-.cta-arrow {
-  transition: transform 0.35s var(--transition-smooth);
-}
-
-.cta-btn:hover .cta-arrow {
-  transform: translate(3px, -3px);
-}
-
-/* ---------- Scroll Indicator ---------- */
+/* -- Scroll indicator -- */
 .scroll-hint {
   opacity: 0;
   animation: fade-in 1s ease 1.6s forwards;
 }
-
 .scroll-line {
-  width: 1px;
-  height: 40px;
+  width: 1px; height: 40px;
   background: linear-gradient(to bottom, var(--muted), transparent);
   animation: scroll-pulse 2.2s ease-in-out 1.8s infinite;
 }
-
 @keyframes scroll-pulse {
-  0%, 100% { opacity: 0.5; transform: scaleY(1); }
-  50%       { opacity: 1;   transform: scaleY(1.25); }
+  0%,100% { opacity:0.5; transform:scaleY(1); }
+  50%      { opacity:1;   transform:scaleY(1.25); }
 }
-
-/* ---------- Shared Keyframes ---------- */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* ---------- Responsive tweaks ---------- */
-@media (max-width: 640px) {
-  .blob-1 { width: 320px; height: 320px; }
-  .blob-2 { width: 280px; height: 280px; }
-  .blob-3 { width: 240px; height: 240px; }
-}
-
 
 /* ============================================================
-   3D CAROUSEL — Characters & Roles
+   WORKS / CAROUSEL SECTION
    ============================================================ */
 
-/* ---------- Carousel custom vars ---------- */
-:root {
-  --card-w:        340px;
-  --card-h:        480px;
-  --ring-radius:   480px;    /* distance from center → card face */
-  --card-gap-angle: 90deg;   /* 360 / 4 cards */
-  --card-bg:       rgba(255, 252, 248, 0.85);
-  --card-border:   rgba(26, 26, 26, 0.07);
-  --card-shadow:   0 32px 80px rgba(26, 26, 26, 0.10), 0 4px 16px rgba(26, 26, 26, 0.06);
-  --card-shadow-active: 0 48px 120px rgba(26, 26, 26, 0.16), 0 8px 32px rgba(26, 26, 26, 0.10);
-  --elastic:       cubic-bezier(0.34, 1.56, 0.64, 1);   /* elastic bounce */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ---------- Section shell ---------- */
-.carousel-section {
+.works-section {
+  position: relative;
+  min-height: 100vh;
   background: var(--cream-dark);
-  padding: 12vh 1.5rem 10vh;
-  position: relative;
-}
-
-/* Subtle top border to separate from Hero */
-.carousel-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1px;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, rgba(26,26,26,0.12), transparent);
-}
-
-/* ---------- Section header ---------- */
-.carousel-header {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fade-up 0.9s var(--ease-out-expo) 0.2s forwards;
-}
-
-.carousel-section-title {
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  margin-top: 0.5rem;
-}
-
-/* ---------- Stage & Scene ---------- */
-.carousel-stage-wrapper {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
-}
-
-.carousel-scene {
-  width: var(--card-w);
-  height: var(--card-h);
-  perspective: 1200px;
-  perspective-origin: 50% 40%;
-  position: relative;
-  /* Extra breathing room so side cards aren't clipped */
-  overflow: visible;
-}
-
-/* ---------- The rotating ring ---------- */
-.carousel-ring {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.72s var(--elastic);
-  will-change: transform;
-}
-
-/* ---------- Each card in 3D space ---------- */
-.carousel-card {
-  position: absolute;
-  width: var(--card-w);
-  height: var(--card-h);
-  top: 0;
-  left: 0;
-  /* JS sets --angle per card, then translateZ pushes to the ring radius */
-  transform: rotateY(var(--angle, 0deg)) translateZ(var(--ring-radius));
-  transform-style: preserve-3d;
-  transition:
-    opacity  0.55s var(--ease-out-expo),
-    filter   0.55s var(--ease-out-expo),
-    transform 0.72s var(--elastic);
-  will-change: transform, opacity, filter;
-  backface-visibility: hidden;
-  cursor: pointer;
-}
-
-/* Non-active cards: dim + scale back */
-.carousel-card:not(.is-active) {
-  opacity: 0.40;
-  filter: blur(1.5px) saturate(0.6);
-}
-
-/* Active card: full brightness */
-.carousel-card.is-active {
-  opacity: 1;
-  filter: none;
-}
-
-/* ---------- Card inner face ---------- */
-.card-inner {
-  width: 100%;
-  height: 100%;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  padding: 10vh 0 8vh;
   overflow: hidden;
-  box-shadow: var(--card-shadow);
-  transition: box-shadow 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
-  position: relative;
 }
 
-.carousel-card.is-active .card-inner {
-  box-shadow: var(--card-shadow-active);
-}
-
-/* Subtle inner glow on active card */
-.carousel-card.is-active .card-inner::before {
+/* -- Divider line between hero and works -- */
+.works-section::before {
   content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(26,26,26,0.10), transparent);
+}
+
+/* ---------- Giant background text ---------- */
+.works-bg-text {
   position: absolute;
   inset: 0;
-  border-radius: 20px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.5) 0%, transparent 65%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
   pointer-events: none;
   z-index: 0;
-}
-
-/* Hover lift for active card */
-.carousel-card.is-active:hover .card-inner {
-  transform: translateY(-6px) scale(1.012);
-  box-shadow: 0 60px 140px rgba(26,26,26,0.18), 0 12px 40px rgba(26,26,26,0.10);
-}
-
-/* ---------- Card image area ---------- */
-.card-image-wrap {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  padding: 0;
-}
-
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-  transition: transform 0.6s var(--ease-out-expo);
   user-select: none;
-  -webkit-user-drag: none;
-  /* Darken background so PNG transparent bg blends with card */
-  background: transparent;
 }
 
-/* Slight zoom on hover */
-.carousel-card.is-active:hover .card-img {
-  transform: scale(1.04);
+.bg-text-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(6rem, 20vw, 22rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  /* Faint outline-only text — blends into cream bg */
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(26, 26, 26, 0.065);
+  white-space: nowrap;
 }
 
-/* Gradient overlay so caption is legible */
-.card-image-wrap::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 55%;
-  background: linear-gradient(to top, rgba(245,242,238,0.96) 0%, transparent 100%);
-  pointer-events: none;
+.bg-text-line--offset {
+  /* slight right shift for staggered look */
+  transform: translateX(6%);
 }
 
-/* ---------- Card caption ---------- */
-.card-caption {
+/* ---------- Section label ---------- */
+.works-label {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 4vh;
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-expo) 0.2s forwards;
+}
+.works-label__text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.works-label__line {
+  display: block;
+  width: 40px; height: 1px;
+  background: rgba(26,26,26,0.2);
+}
+
+/* ---------- Carousel viewport ---------- */
+.crs-viewport {
   position: relative;
   z-index: 2;
   width: 100%;
-  padding: 1.2rem 1.6rem 1.6rem;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.card-tag {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.45rem;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.45s 0.1s var(--ease-out-expo), transform 0.45s 0.1s var(--ease-out-expo);
-}
-
-.card-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.65rem;
-  font-weight: 300;
-  letter-spacing: -0.015em;
-  color: var(--charcoal);
-  line-height: 1.1;
-  margin-bottom: 0.3rem;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.45s 0.18s var(--ease-out-expo), transform 0.45s 0.18s var(--ease-out-expo);
-}
-
-.card-sub {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 300;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.45s 0.26s var(--ease-out-expo), transform 0.45s 0.26s var(--ease-out-expo);
-}
-
-/* Reveal caption elements when card is active */
-.carousel-card.is-active .card-tag,
-.carousel-card.is-active .card-title,
-.carousel-card.is-active .card-sub {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ---------- Navigation Controls ---------- */
-.carousel-controls {
   display: flex;
   align-items: center;
-  gap: 1.4rem;
-  margin-top: 0.5rem;
+  justify-content: center;
+  gap: 0;
 }
 
-.carousel-btn {
-  width: 44px;
-  height: 44px;
+/* ---------- Arrow buttons ---------- */
+.crs-arrow {
+  flex-shrink: 0;
+  width: 48px; height: 48px;
   border-radius: 50%;
-  border: 1px solid rgba(26, 26, 26, 0.2);
-  background: transparent;
+  border: 1px solid rgba(26,26,26,0.18);
+  background: rgba(245,242,238,0.7);
+  backdrop-filter: blur(8px);
   color: var(--charcoal);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 10;
+  position: relative;
   transition:
-    background 0.3s var(--transition-smooth),
-    color      0.3s var(--transition-smooth),
-    border-color 0.3s var(--transition-smooth),
-    transform  0.25s var(--elastic);
+    background  0.3s var(--ease-smooth),
+    color       0.3s var(--ease-smooth),
+    border-color 0.3s var(--ease-smooth),
+    transform   0.3s var(--ease-elastic);
   outline: none;
+  margin: 0 1.5rem;
 }
-
-.carousel-btn:hover {
+.crs-arrow:hover {
   background: var(--charcoal);
   color: var(--cream);
   border-color: var(--charcoal);
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
-
-.carousel-btn:active {
-  transform: scale(0.94);
-}
-
-/* ---------- Dot indicators ---------- */
-.carousel-dots {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(26, 26, 26, 0.22);
-  padding: 0;
-  cursor: pointer;
-  transition:
-    width      0.35s var(--elastic),
-    background 0.3s var(--transition-smooth),
-    transform  0.3s var(--elastic);
-  outline: none;
-}
-
-.dot.active {
-  width: 22px;
-  border-radius: 3px;
-  background: var(--charcoal);
-}
-
-.dot:hover:not(.active) {
-  background: rgba(26, 26, 26, 0.50);
-  transform: scale(1.2);
-}
-
-/* ---------- Slide counter ---------- */
-.carousel-counter {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  justify-content: center;
-  margin-top: 2rem;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  color: var(--muted);
-}
-
-.counter-sep {
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--muted);
-  opacity: 0.4;
-}
-
-/* ---------- Keyboard focus ring ---------- */
-.carousel-btn:focus-visible,
-.dot:focus-visible {
+.crs-arrow:active { transform: scale(0.92); }
+.crs-arrow:focus-visible {
   outline: 2px solid var(--charcoal);
   outline-offset: 3px;
 }
 
-/* ---------- Carousel responsive ---------- */
-@media (max-width: 480px) {
-  :root {
-    --card-w:      280px;
-    --card-h:      400px;
-    --ring-radius: 380px;
-  }
-
-  .carousel-section-title {
-    font-size: 2rem;
-  }
+/* ---------- 3D Stage ---------- */
+.crs-stage {
+  /* perspective applied to the parent of the 3D element */
+  perspective: 1400px;
+  perspective-origin: 50% 38%;
+  /* clip to show only the center card and peek of sides */
+  width: min(500px, 88vw);
+  height: 560px;
+  position: relative;
+  overflow: visible;
 }
 
-@media (max-width: 380px) {
-  :root {
-    --card-w:      240px;
-    --card-h:      340px;
-    --ring-radius: 320px;
-  }
+/* ---------- Track — the rotating carousel ring ---------- */
+.crs-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  /* JS drives this rotation */
+  transform: rotateY(0deg);
+  /* elastic bounce timing */
+  transition: transform 0.75s cubic-bezier(0.34, 1.38, 0.64, 1);
+  will-change: transform;
 }
+
+/* ---------- Individual slides ---------- */
+.crs-slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  /* JS sets --slide-angle per slide */
+  transform: rotateY(var(--slide-angle, 0deg)) translateZ(520px);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition:
+    opacity 0.55s var(--ease-expo),
+    filter  0.55s var(--ease-expo);
+  will-change: transform, opacity, filter;
+}
+
+/* Non-active slides: dim + blur */
+.crs-slide:not(.is-active) {
+  opacity: 0.28;
+  filter: blur(2px) saturate(0.5);
+  pointer-events: none;
+}
+
+/* Active slide */
+.crs-slide.is-active {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
+/* ---------- Card face ---------- */
+.crs-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ---------- Image container (floating character) ---------- */
+.crs-img-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.crs-img {
+  width: auto;
+  max-width: 88%;
+  height: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+  position: relative;
+  z-index: 1;
+  /* subtle float animation on active card */
+  transition: transform 0.6s var(--ease-expo);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.crs-slide.is-active .crs-img {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-14px); }
+}
+
+/* Floor shadow (ellipse under character) */
+.crs-shadow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55%;
+  height: 24px;
+  background: radial-gradient(ellipse, rgba(26,26,26,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: opacity 0.5s var(--ease-expo);
+}
+
+.crs-slide:not(.is-active) .crs-shadow {
+  opacity: 0;
+}
+
+/* ---------- Card info text ---------- */
+.crs-info {
+  text-align: center;
+  padding: 1.6rem 1rem 0;
+  /* caption elements animate in when active */
+}
+
+.crs-num {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s 0.05s var(--ease-expo), transform 0.4s 0.05s var(--ease-expo);
+}
+
+.crs-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--charcoal);
+  margin: 0 0 0.35rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s 0.12s var(--ease-expo), transform 0.4s 0.
