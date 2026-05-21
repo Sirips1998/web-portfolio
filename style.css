@@ -162,31 +162,34 @@ body {
   overflow: hidden;
 }
 
-/* ---------- Giant Background Typography Layers ---------- */
-/* ย้ายข้อความนี้มาอยู่ z-index: 0 เพื่อให้อยู่หลังสุด */
-.works-bg-text {
+/* ---------- Text Behind Image ---------- */
+.card-bg-text {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  z-index: 0; /* ซ่อนหลังรูป */
   pointer-events: none;
-  z-index: 0;
-  user-select: none;
+  width: 100vw;
 }
-.bg-text-line {
+
+.card-bg-line {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
+  font-weight: 600; /* ทำให้ตัวหนาขึ้น */
   font-size: clamp(6rem, 20vw, 22rem);
   line-height: 0.85;
   letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(26, 26, 26, 0.065);
+  /* สีขาวแบบ Fill เต็มๆ + เงานิดๆ */
+  color: #FFFFFF;
+  text-shadow: 4px 8px 24px rgba(0, 0, 0, 0.08); 
   white-space: nowrap;
 }
-.bg-text-line--offset {
+
+.card-bg-line--offset {
   transform: translateX(6%);
 }
 
@@ -216,8 +219,6 @@ body {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  /* translateZ(480px) Determines ring geometry boundaries */
-  /* Added scale(1) to define the base shrinking point */
   transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(1);
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -225,12 +226,11 @@ body {
   will-change: transform, opacity, filter;
 }
 
-/* Non-active Slides Configuration (Depth Cue Blurring & Shrinking) */
+/* Non-active Slides Configuration */
 .crs-slide:not(.is-active) {
   opacity: 0.4;
   filter: blur(4px) grayscale(50%);
   pointer-events: none;
-  /* Added scale(0.85) to shrink slides when they go behind */
   transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(0.85);
 }
 
@@ -239,7 +239,6 @@ body {
   opacity: 1;
   filter: none;
   pointer-events: auto;
-  /* Active slide is at scale(1) */
   transform: rotateY(var(--slide-angle, 0deg)) translateZ(480px) scale(1);
 }
 
@@ -325,7 +324,6 @@ body {
     width: 82vw;
     height: 460px;
   }
-  /* Compressed mobile boundary distance rules */
   .crs-slide { transform: rotateY(var(--slide-angle)) translateZ(300px); }
-  .bg-text-line { font-size: clamp(4.5rem, 22vw, 8rem); }
+  .card-bg-line { font-size: clamp(4.5rem, 22vw, 8rem); }
 }
