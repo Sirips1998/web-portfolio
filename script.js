@@ -32,11 +32,12 @@ const BlobParallax = (() => {
 })();
 
 // ==========================================
-// แก้ไขระบบ Carousel 3D ตรงนี้!
+// 3D Carousel (Auto-play + Pause on Hover)
 // ==========================================
 const Carousel3D = (() => {
   const TOTAL = 4;
   const STEP_ANGLE = 360 / TOTAL; 
+  const AUTO_DELAY = 3500; // เวลาหมุนออโต้ (3.5 วินาที)
   
   const slideData = [
     { name: 'The Gamer', role: 'Intense · Reactive' },
@@ -45,13 +46,15 @@ const Carousel3D = (() => {
     { name: 'The Creative', role: 'Visionary · Unconventional' }
   ];
 
-  let currentRotation = 0; // ตัวแปรพระเอก: จำองศาแบบบวกสะสมไปเรื่อยๆ (Infinity)
-  let track, slides, prevBtn, nextBtn, numLabel, nameLabel, roleLabel;
+  let currentRotation = 0; 
+  let autoTimer = null; // ตัวจับเวลา
+  let track, slides, prevBtn, nextBtn, numLabel, nameLabel, roleLabel, section;
 
   function init() {
     track = document.getElementById('carouselTrack');
     if (!track) return;
 
+    section = document.getElementById('works'); // ดึง section มาใช้เช็กเมาส์
     slides = Array.from(track.querySelectorAll('.crs-slide'));
     prevBtn = document.getElementById('prevBtn');
     nextBtn = document.getElementById('nextBtn');
@@ -64,35 +67,57 @@ const Carousel3D = (() => {
       slide.style.setProperty('--slide-angle', `${i * STEP_ANGLE}deg`);
     });
 
-    prevBtn?.addEventListener('click', () => navigate(-1));
-    nextBtn?.addEventListener('click', () => navigate(+1));
+    // เวลากดปุ่มเอง ให้รีเซ็ตเวลาออโต้ด้วย จะได้ไม่หมุนเบิ้ล
+    prevBtn?.addEventListener('click', () => manualNavigate(-1));
+    nextBtn?.addEventListener('click', () => manualNavigate(+1));
+
+    // หยุดหมุนเมื่อเอาเมาส์ชี้ (หรือเอานิ้วจิ้มค้างในมือถือ)
+    section?.addEventListener('mouseenter', stopAutoPlay);
+    section?.addEventListener('mouseleave', startAutoPlay);
+    section?.addEventListener('touchstart', stopAutoPlay, { passive: true });
+    section?.addEventListener('touchend', startAutoPlay, { passive: true });
 
     render();
+    startAutoPlay(); // เริ่มหมุนออโต้ตั้งแต่เปิดเว็บ!
   }
 
   function navigate(dir) {
-    // หมุนไปข้างหน้า/ข้างหลัง ทีละ 90 องศาแบบสะสม
     currentRotation += dir * -STEP_ANGLE;
     render();
   }
 
+  function manualNavigate(dir) {
+    navigate(dir);
+    stopAutoPlay();
+    startAutoPlay(); // รีสตาร์ทตัวนับเวลาใหม่
+  }
+
   function render() {
-    // หมุน 3D Track ตามองศาที่สะสม
     track.style.transform = `rotateY(${currentRotation}deg)`;
 
-    // คำนวณหาว่าการ์ดใบไหนที่กำลังหันหน้ามาหาเรา
     let activeIndex = Math.round(currentRotation / -STEP_ANGLE) % TOTAL;
-    if (activeIndex < 0) activeIndex += TOTAL; // กันค่าติดลบ
+    if (activeIndex < 0) activeIndex += TOTAL; 
 
-    // อัปเดตสถานะ Active ให้การ์ดเด้ง
     slides.forEach((slide, i) => {
       slide.classList.toggle('is-active', i === activeIndex);
     });
 
-    // อัปเดตข้อความ
     if(numLabel) numLabel.textContent = `0${activeIndex + 1} / 04`;
     if(nameLabel) nameLabel.textContent = slideData[activeIndex].name;
     if(roleLabel) roleLabel.textContent = slideData[activeIndex].role;
+  }
+
+  // ฟังก์ชันเริ่มจับเวลาหมุนออโต้
+  function startAutoPlay() {
+    if (!autoTimer) {
+      autoTimer = setInterval(() => navigate(+1), AUTO_DELAY);
+    }
+  }
+
+  // ฟังก์ชันหยุดจับเวลา
+  function stopAutoPlay() {
+    clearInterval(autoTimer);
+    autoTimer = null;
   }
 
   return { init };
