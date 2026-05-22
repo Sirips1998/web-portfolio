@@ -605,7 +605,7 @@ a {
   }
 
   .crs-stage {
-    width: 82vw;
+    justify-content: center;
     height: 56vh;
     min-height: 430px;
   }
