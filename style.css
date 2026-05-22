@@ -627,7 +627,21 @@ text-align: center;
     gap: 42px;
   }
 }
+/* --- RESPONSIVE FIX FOR MOBILE (≤ 768px) --- */
+@media (max-width: 768px) {
+  
+  /* แก้หน้า ABOUT (Who am I?) */
+  #about p {
+    font-size: 2rem !important; /* ลดขนาดตัวอักษรลง */
+    line-height: 1.4 !important;
+  }
 
+  /* แก้หน้า SKILLS (Technical Arsenal) */
+  #skills .grid {
+    grid-template-cols: 1fr !important; /* เปลี่ยนจาก 4 คอลัมน์เป็น 1 คอลัมน์ (เรียงลงมา) */
+    gap: 40px !important;
+  }
+}
 @media (max-width: 560px) {
   .site-header {
     padding: 18px;
