@@ -189,14 +189,13 @@ a {
   top: 50%;
   left: 50%;
   z-index: 1;
-  width: 120vw;
-  transform: translate(-50%, -50%);
+  width: 100vw; /* ให้กว้างเท่าจอ */
+  transform: translate(-50%, -50%); /* ดึงกลับมาที่กึ่งกลางจอพอดี */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* บังคับให้ตัวหนังสือทุกบรรทัดชิดกลาง */
   justify-content: center;
   pointer-events: none;
-  user-select: none;
 }
 
 .card-bg-line,
