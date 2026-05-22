@@ -642,6 +642,24 @@ text-align: center;
     gap: 40px !important;
   }
 }
+/* ปรับสเกลสำหรับหน้าจอมือถือ (ความกว้างน้อยกว่า 640px) */
+@media (max-width: 640px) {
+  /* ปรับขนาดตัวอักษรยักษ์ (THE PLANNER/CODER) ให้เล็กลง */
+  .card-bg-line {
+    font-size: clamp(3rem, 10vw, 5rem) !important;
+  }
+  
+  /* ปรับระยะห่างของ section ให้อยู่ในกรอบจอ */
+  .works-section, .about-section, .contact-section {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  
+  /* ปรับขนาดข้อความ About ให้ไม่ล้น */
+  .about-section h2, .about-section p {
+    font-size: 0.9rem !important;
+  }
+}
 @media (max-width: 560px) {
   .site-header {
     padding: 18px;
