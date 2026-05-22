@@ -260,15 +260,10 @@ a   { color: inherit; }
 .card-bg-line {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
-  /*
-    clamp(ขนาดเล็กสุด, ขนาดตามจอ, ขนาดใหญ่สุด)
-    ใช้ 30vw → ให้ข้อความใหญ่ขึ้นบน mobile (จอแคบ vw เล็ก แต่ % สูง)
-  */
   font-size: clamp(7rem, 30vw, 22rem);
   line-height: 0.84;
   letter-spacing: -0.05em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(26,26,26,0.055);
+  color: #FFFFFF;
   text-align: center;
   white-space: nowrap;
 }
@@ -581,5 +576,5 @@ a   { color: inherit; }
   .crs-slide.is-prev,
   .crs-slide.is-next { opacity: 0; }
   /* จอมือถือแคบมาก: เพิ่ม vw ขึ้นอีกเพื่อให้ข้อความหลังใหญ่เต็มจอ */
-  .card-bg-line { font-size: clamp(5rem, 38vw, 9rem); }
+  .card-bg-line { font-size: clamp(5rem, 38vw, 9rem); color: #FFFFFF; }
 }
