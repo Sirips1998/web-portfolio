@@ -189,8 +189,7 @@ a {
   top: 50%;
   left: 50%;
   z-index: 1;
-  width: 100%;
-  max-width: 100vw;
+  width: 120vw;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
