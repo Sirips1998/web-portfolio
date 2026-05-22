@@ -211,7 +211,7 @@ a {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
   -webkit-text-stroke: 0 !important;
-
+text-align: center;
   opacity: 1;
   white-space: nowrap;
 
@@ -221,7 +221,7 @@ a {
 }
 
 .card-bg-line--offset {
-  transform: translateX(6%);
+  transform: translateX(0%);
 }
 
 .works-content {
