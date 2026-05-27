@@ -445,18 +445,6 @@ export default function App() {
                   Click outside this area to close the pack.
                 </p>
 
-                {!packOpened && (
-                  <div className="arsenal-panel-actions">
-                    <button
-                      type="button"
-                      className="arsenal-action primary"
-                      onClick={handleOpenPack}
-                    >
-                      Open Pack
-                    </button>
-                  </div>
-                )}
-
                 <div className="arsenal-progress">
                   <span>{packOpened ? 'PICK A CARD' : 'REVEALED'}</span>
                   <strong>
