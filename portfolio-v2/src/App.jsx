@@ -1,26 +1,28 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
+const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+
 const CHARACTERS = [
   {
-    src: '/images/Gaming-Character.png',
+    src: asset('images/Gaming-Character.png'),
     title: 'THE GAMER',
     role: 'INTENSE · REACTIVE',
     bg: '#f1eeea',
   },
   {
-    src: '/images/Office-Character.png',
+    src: asset('images/Office-Character.png'),
     title: 'THE PLANNER',
     role: 'STRATEGIC · DETAIL-DRIVEN',
     bg: '#f1eeea',
   },
   {
-    src: '/images/Coder-Character.png',
+    src: asset('images/Coder-Character.png'),
     title: 'THE CODER',
     role: 'CAFFEINE-POWERED · BUILDER',
     bg: '#f1eeea',
   },
   {
-    src: '/images/Fantasy-Character.png',
+    src: asset('images/Fantasy-Character.png'),
     title: 'THE FANTASY',
     role: 'VISIONARY · UNCONVENTIONAL',
     bg: '#f1eeea',
@@ -35,7 +37,7 @@ const SKILL_CARDS = [
     codename: 'THE CODER',
     copy:
       'Building clean, scalable interfaces and turning visual concepts into polished web experiences.',
-    image: '/images/Coder-Character.png',
+    image: asset('images/Coder-Character.png'),
     tags: ['React', 'Next.js', 'Vue', 'Tailwind'],
     accent: '#74b7ff',
   },
@@ -46,7 +48,7 @@ const SKILL_CARDS = [
     codename: 'THE GAMER',
     copy:
       'Creating movement, depth, and cinematic interaction that makes digital work feel alive.',
-    image: '/images/Gaming-Character.png',
+    image: asset('images/Gaming-Character.png'),
     tags: ['Blender', 'After Effects', 'Three.js', 'GSAP'],
     accent: '#ff7d91',
   },
@@ -57,18 +59,11 @@ const SKILL_CARDS = [
     codename: 'THE FANTASY',
     copy:
       'Designing identity-driven systems, storytelling, and visual worlds that give each project its own character.',
-    image: '/images/Fantasy-Character.png',
+    image: asset('images/Fantasy-Character.png'),
     tags: ['Identity', 'Layout', 'Storytelling', 'Art Direction'],
     accent: '#c998ff',
   },
 ];
-
-const TIMING = {
-  PACK_OPENING_DURATION: 420,
-  CARD_REVEAL_DURATION: 520,
-  SCROLL_DELAY_SHORT: 80,
-  SCROLL_DELAY_LONG: 120,
-};
 
 function getSlideState(index, activeIndex) {
   const total = CHARACTERS.length;
@@ -189,6 +184,7 @@ export default function App() {
 
   const scrollToCard = (cardIndex, delay = 120) => {
     const shouldAutoScroll = window.matchMedia('(max-width: 900px)').matches;
+
     if (!shouldAutoScroll) return;
 
     window.setTimeout(() => {
@@ -228,8 +224,8 @@ export default function App() {
 
     addTimer(() => {
       setOpeningPack(false);
-      scrollToCard(0, TIMING.SCROLL_DELAY_LONG);
-    }, TIMING.PACK_OPENING_DURATION);
+      scrollToCard(0, 120);
+    }, 420);
   };
 
   const handleRevealCard = (cardIndex) => {
@@ -241,7 +237,7 @@ export default function App() {
     if (revealedIndexes.includes(cardIndex) || flashingCardIndex !== null) return;
 
     setFlashingCardIndex(cardIndex);
-    scrollToCard(cardIndex, TIMING.SCROLL_DELAY_SHORT);
+    scrollToCard(cardIndex, 80);
 
     addTimer(() => {
       setRevealedIndexes((prev) => {
@@ -250,7 +246,7 @@ export default function App() {
       });
 
       setFlashingCardIndex(null);
-    }, TIMING.CARD_REVEAL_DURATION);
+    }, 520);
   };
 
   const handleSkillsBackgroundClick = (event) => {
@@ -343,7 +339,8 @@ export default function App() {
         >
           <div className="hero-status">
             <span>
-              {String(activeIndex + 1).padStart(2, '0')} / {String(CHARACTERS.length).padStart(2, '0')}
+              {String(activeIndex + 1).padStart(2, '0')} /{' '}
+              {String(CHARACTERS.length).padStart(2, '0')}
             </span>
             <span>{activeCharacter.role}</span>
           </div>
@@ -463,7 +460,8 @@ export default function App() {
                 <div className="arsenal-progress">
                   <span>{packOpened ? 'PICK A CARD' : 'REVEALED'}</span>
                   <strong>
-                    {String(revealedCount).padStart(2, '0')} / {String(SKILL_CARDS.length).padStart(2, '0')}
+                    {String(revealedCount).padStart(2, '0')} /{' '}
+                    {String(SKILL_CARDS.length).padStart(2, '0')}
                   </strong>
                 </div>
               </div>
